@@ -7,10 +7,14 @@ const { Dragger } = Upload;
 export const CustomDragger = ({
     title,
     description,
+    fileList,
     ...draggerProps
 }: CustomDraggerProps) => {
   return (
-    <Dragger {...draggerProps}>
+    <Dragger
+      fileList={fileList}
+      {...draggerProps}
+    >
         <p className="ant-upload-drag-icon">
             <InboxOutlined />
         </p>
