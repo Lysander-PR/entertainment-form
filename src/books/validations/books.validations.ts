@@ -19,6 +19,7 @@ const validations: Partial<Record<BookField, Yup.AnySchema>> = {
         .required("Publisher is required")
         .max(100, "Publisher must have max 100 characters"),
     releaseDate: Yup.date()
+        .required("Release Date is required")
         .min(minDate, "Release Date cannot be in the past")
         .max(maxDate, "Release Date must be within the next 7 months"),
     title: Yup.string()
