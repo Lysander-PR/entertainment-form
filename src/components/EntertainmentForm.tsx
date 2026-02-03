@@ -1,6 +1,17 @@
+import { Button, Form } from "antd"
+
+interface Values {}
 
 export const EntertainmentForm = () => {
+  const handleSubmit = (values: Values): void => {
+    console.log({ values })
+  }
+
   return (
-    <div>EntertainmentForm</div>
+    <Form onFinish={handleSubmit}>
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </Form>
   )
 }
