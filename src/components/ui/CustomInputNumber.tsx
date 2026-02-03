@@ -6,6 +6,10 @@ export const CustomInputNumber = (inputNumberProps: InputNumberProps) => {
     <InputNumber
       style={{ width: "100%" }}
       stringMode
+      formatter={(value) =>
+        value ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""
+      }
+      parser={(value) => (value ? value.replace(/,/g, "") : "")}
       {...inputNumberProps}
     />
   )
