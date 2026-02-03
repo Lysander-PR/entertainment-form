@@ -20,6 +20,9 @@ const validations: Partial<Record<SongField, Yup.AnySchema>> = {
         .required("Studio is required"),
     releaseDate: Yup.date(),
     genre: Yup.string(),
+    title: Yup.string()
+        .required("Title is required")
+        .max(100, "Title must have max 100 characters"),
     coverArt: Yup.mixed()
 }
 

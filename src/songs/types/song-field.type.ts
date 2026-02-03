@@ -6,4 +6,5 @@ export type SongField =
     | 'releaseDate'
     | 'coverArt'
     | 'genre'
-    | 'guestArtist';
+    | 'guestArtist'
+    | 'title';

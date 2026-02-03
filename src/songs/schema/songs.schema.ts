@@ -58,6 +58,12 @@ export const schema: SongSchema[] = [
         colProps
     },
     {
+        field: 'title',
+        label: 'Title',
+        type: TypeRenderer.INPUT,
+        colProps
+    },
+    {
         field: 'coverArt',
         label: 'Cover Art',
         type: TypeRenderer.DRAGGER,
