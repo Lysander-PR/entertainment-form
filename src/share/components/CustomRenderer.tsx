@@ -29,18 +29,19 @@ export const CustomRenderer = ({
     datePickerProps = {},
     selectProps = { options: [] },
     draggerProps = { title: '', description: '' },
+    ...formFieldPropsByAntd
 }: Props) => {
     switch (type) {
         case TypeRenderer.INPUT:
-            return <CustomInput {...inputProps} />
+            return <CustomInput {...formFieldPropsByAntd} {...inputProps} />
         case TypeRenderer.DATE_PICKER:
-            return <CustomDatePicker {...datePickerProps} />
+            return <CustomDatePicker {...formFieldPropsByAntd} {...datePickerProps} />
         case TypeRenderer.DRAGGER:
-            return <CustomDragger {...draggerProps} />
+            return <CustomDragger {...formFieldPropsByAntd} {...draggerProps} />
         case TypeRenderer.INPUT_NUMBER:
-            return <CustomInputNumber {...inputNumberProps} />
+            return <CustomInputNumber {...formFieldPropsByAntd} {...inputNumberProps} />
         case TypeRenderer.DROPDOWN:
-            return <CustomSelect {...selectProps} />
+            return <CustomSelect {...formFieldPropsByAntd} {...selectProps} />
         default:
             return <Text>Unsupported type: {type}</Text>
     }
