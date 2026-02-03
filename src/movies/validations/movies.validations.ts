@@ -24,6 +24,9 @@ const validations: Partial<Record<MovieField, Yup.AnySchema>> = {
         .max(maxDate, "Release Date must be within the next 5 years"),
     soundtrack: Yup.string()
         .url("Soundtrack must be a valid URL"),
+    title: Yup.string()
+        .required("Title is required")
+        .max(100, "Title must have max 100 characters"),
     poster: Yup.mixed()
         .required("Poster is required")
 }

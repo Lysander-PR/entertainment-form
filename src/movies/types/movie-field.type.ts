@@ -5,4 +5,5 @@ export type MovieField =
     | 'studio'
     | 'releaseDate'
     | 'soundtrack'
-    | 'poster';
+    | 'poster'
+    | 'title';

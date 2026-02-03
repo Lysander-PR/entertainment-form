@@ -37,7 +37,13 @@ export const schema: MovieSchema[] = [
         field: 'releaseDate',
         label: 'Release Date',
         type: TypeRenderer.DATE_PICKER,
-        colProps
+        colProps: { ...colProps, md: 4 },
+    },
+    {
+        field: 'title',
+        label: 'Title',
+        type: TypeRenderer.INPUT,
+        colProps: { ...colProps, md: 4 },
     },
     {
         field: 'soundtrack',
