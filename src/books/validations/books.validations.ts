@@ -26,7 +26,6 @@ const validations: Partial<Record<BookField, Yup.AnySchema>> = {
         .max(150, "Title must have max 150 characters")
         .matches(/^[a-zA-Z0-9\s]+$/, "Title must contain only letters, numbers, and spaces"),
     coverImage: Yup.mixed()
-        .required("Cover Image is required")
 }
 
 export const schemaValidation: Yup.ObjectSchema<Yup.AnyObject> = Yup.object().shape(validations);
