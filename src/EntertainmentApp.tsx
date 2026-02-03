@@ -6,7 +6,7 @@ export const EntertainmentApp = () => {
   return (
     <div className='p-4 border bg-gray-200 min-h-screen'>
       <Card>
-        <Space direction="vertical" size={16} style={{ width: "100%" }}>
+        <Space orientation="vertical" size={16} style={{ width: "100%" }}>
           <div style={{ textAlign: "center", paddingTop: 8 }}>
             <Title level={2} style={{ marginBottom: 0 }}>
               Registro de Usuario
