@@ -40,7 +40,7 @@ export const CustomRenderer = ({
             return <CustomDragger {...formFieldPropsByAntd} {...draggerProps} />
         case TypeRenderer.INPUT_NUMBER:
             return <CustomInputNumber {...formFieldPropsByAntd} {...inputNumberProps} />
-        case TypeRenderer.DROPDOWN:
+        case TypeRenderer.SELECT:
             return <CustomSelect {...formFieldPropsByAntd} {...selectProps} />
         default:
             return <Text>Unsupported type: {type}</Text>
