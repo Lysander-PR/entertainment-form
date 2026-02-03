@@ -5,7 +5,7 @@ export const songMock = {
   album: "Random Access Memories Deluxe Edition",
   composer: "Thomas Bangalter",
   studio: "XO Records",
-  releaseDate: "2026-09-12",
+  releaseDate: 1789192800000, // 2026-09-12T06:00:00.000Z
   genre: "Synthpop",
   coverArt: {
     uid: "cover-001",
