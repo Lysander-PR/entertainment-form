@@ -1,16 +1,14 @@
 import { Select } from "antd";
-import type { SelectProps } from "antd";
+import type { CustomSelectProps } from "@/types/interfaces/custom-select.interface";
 
-type Props = Omit<SelectProps, 'options'> & {
-  options: NonNullable<SelectProps['options']>;
-};
-
-export const CustomSelect = ({ options, ...rest }: Props) => {
+export const CustomSelect = ({
+  options,
+  ...selectRest
+}: CustomSelectProps) => {
   return (
     <Select
-      {...rest}
+      {...selectRest}
       options={options}
     />
   );
 }
-  
