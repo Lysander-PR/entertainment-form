@@ -1,19 +1,14 @@
 import { Upload } from 'antd';
-import type { UploadProps } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import type { CustomDraggerProps } from '@/types/interfaces/custom-dragger.interface';
 
 const { Dragger } = Upload;
-
-interface Props extends UploadProps {
-    title: string;
-    description: string;
-}
 
 export const CustomDragger = ({
     title,
     description,
     ...draggerProps
-}: Props) => {
+}: CustomDraggerProps) => {
   return (
     <Dragger {...draggerProps}>
         <p className="ant-upload-drag-icon">
