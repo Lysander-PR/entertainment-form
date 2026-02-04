@@ -1,7 +1,7 @@
-import type { EntityType } from "@/types/entertainment.type";
+import { TypeEntertainment } from "@/types/enums/type-entertainment.enum";
 
-export const entityOptions: { label: string; value: EntityType }[] = [
-  { label: "Song", value: "song" },
-  { label: "Movie", value: "movie" },
-  { label: "Book", value: "book" }
+export const entityOptions: { label: string; value: TypeEntertainment }[] = [
+  { label: "Song", value: TypeEntertainment.SONG },
+  { label: "Movie", value: TypeEntertainment.MOVIE },
+  { label: "Book", value: TypeEntertainment.BOOK }
 ];

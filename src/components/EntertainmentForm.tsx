@@ -7,13 +7,14 @@ import { createYupSync } from "@/utils/createYupSync"
 import { schemaRegistry } from "@/constants/schema-registry"
 import { validationRegistry } from "@/constants/validation-registry"
 import { entityOptions } from "@/constants/entity-optionts"
-import type { EntityType, EntertainmentField } from "@/types/entertainment.type" 
+import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
+import type { EntertainmentField } from "@/types/entertainment.type" 
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
-  const [searchParams, setSearchParams] = useSearchParams({ entertainment: 'song' });
-  
-  const entertainmentSelected: EntityType = searchParams.get("entertainment") as EntityType || 'song';
+  const [searchParams, setSearchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
+
+  const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
   const currentSchema = schemaRegistry[entertainmentSelected];
   const currentValidation = validationRegistry[entertainmentSelected];
 
