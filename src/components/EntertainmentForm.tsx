@@ -6,7 +6,7 @@ import { CustomRenderer } from "@/share/components/CustomRenderer"
 import { createYupSync } from "@/utils/createYupSync"
 import { schemaRegistry } from "@/constants/schema-registry"
 import { validationRegistry } from "@/constants/validation-registry"
-import { entityOptions } from "@/constants/entity-optionts"
+import { entertainmentOptions } from "@/constants/entertainment-optionts"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { EntertainmentField } from "@/types/entertainment.type" 
 
@@ -42,7 +42,7 @@ export const EntertainmentForm = () => {
             value={entertainmentSelected}
             onChange={handleChangeEntity}
             >
-            {entityOptions.map(option => (
+            {entertainmentOptions.map(option => (
               <Radio.Button key={option.value} value={option.value}>
                 {option.label}
               </Radio.Button>
