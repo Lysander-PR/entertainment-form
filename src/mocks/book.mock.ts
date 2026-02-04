@@ -4,11 +4,5 @@ export const mockBook = {
   publisher: "Tor Books",
   releaseDate: 1784095200000, // 2026-07-15T06:00:00.000Z
   title: "Skyward Legacy 2",
-  coverImage: {
-    uid: "cover-101",
-    name: "cover.jpg",
-    type: "image/jpeg",
-    size: 684210,
-    url: "https://example.com/assets/books/covers/skyward-legacy-2.jpg"
-  }
+  coverImage: "https://example.com/assets/books/covers/skyward-legacy-2.jpg"
 }
