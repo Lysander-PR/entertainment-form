@@ -2,7 +2,7 @@ import { movieMock } from "@/mocks/movie.mock"
 import type { Movie } from "@/movies/entities/movie.entity";
 import type { MovieResponse } from "@/movies/types/interfaces/movie-response.interface";
 
-export const getMovie = async (): Promise<Movie> => {
+export const getMovie = async (id: string): Promise<Movie> => {
     const response: MovieResponse = movieMock;
 
     return {

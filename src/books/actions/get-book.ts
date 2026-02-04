@@ -2,7 +2,7 @@ import { mockBook } from "@/mocks/book.mock"
 import type { Book } from "@/books/types/entities/book.entity";
 import type { BookResponse } from "@/books/types/interfaces/book-response.interface";
 
-export const getBook = async (): Promise<Book> => {
+export const getBook = async (id: string): Promise<Book> => {
     const response: BookResponse = mockBook;
 
     return {

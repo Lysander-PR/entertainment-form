@@ -2,7 +2,7 @@ import { songMock } from "@/mocks/song.mock";
 import type { Song } from "@/songs/entities/song.entity";
 import type { SongResponse } from "@/songs/types/interfaces/song-response.interface";
 
-export const getSong = async (): Promise<Song> => {
+export const getSong = async (id: string): Promise<Song> => {
     const response: SongResponse = songMock;
 
     return {
