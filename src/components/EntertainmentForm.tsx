@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Button, Col, Form, Radio, Row, type RadioChangeEvent } from "antd"
 import { useSearchParams } from "react-router-dom"
 
@@ -9,6 +10,7 @@ import { validationRegistry } from "@/constants/validation-registry"
 import { entertainmentOptions } from "@/constants/entertainment-optionts"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { EntertainmentField } from "@/types/entertainment.type" 
+import { useInitialValues } from "@/hooks/useInitialValues"
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
@@ -17,6 +19,11 @@ export const EntertainmentForm = () => {
   const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
   const currentSchema = schemaRegistry[entertainmentSelected];
   const currentValidation = validationRegistry[entertainmentSelected];
+
+  const { data: initialValues } = useInitialValues(entertainmentSelected, 'value-id-123-example-if-needed');
+  useEffect(() => {
+    form.setFieldsValue(initialValues);
+  }, [initialValues, form]);
 
   const handleSubmit = (values: EntertainmentField): void => {
     console.log({ entertainmentSelected, values })
