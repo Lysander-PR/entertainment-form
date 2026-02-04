@@ -1,6 +1,6 @@
-import {Card, Space, Typography } from 'antd'
+import {Card, Space } from 'antd'
 import { EntertainmentForm } from './components/EntertainmentForm'
-const { Title, Text } = Typography
+import { TitleRenderer } from './components/TitleRenderer'
 
 export const EntertainmentApp = () => {
   return (
@@ -8,10 +8,7 @@ export const EntertainmentApp = () => {
       <Card>
         <Space orientation="vertical" size={16} style={{ width: "100%" }}>
           <div style={{ textAlign: "center", paddingTop: 8 }}>
-            <Title level={2} style={{ marginBottom: 0 }}>
-              Registro de Usuario
-            </Title>
-            <Text type="secondary">Completa tus datos para crear una cuenta</Text>
+            <TitleRenderer />
           </div>
 
           <EntertainmentForm />

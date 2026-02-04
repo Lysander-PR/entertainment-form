@@ -1,5 +1,5 @@
-import { useState } from "react"
 import { Button, Col, Form, Radio, Row, type RadioChangeEvent } from "antd"
+import { useSearchParams } from "react-router-dom"
 
 import { CustomRenderer } from "@/share/components/CustomRenderer"
 
@@ -11,23 +11,25 @@ import type { EntityType, EntertainmentField } from "@/types/entertainment.type"
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
-  const [entity, setEntity] = useState<EntityType>("song");
-
-  const currentSchema = schemaRegistry[entity];
-  const currentValidation = validationRegistry[entity];
+  const [searchParams, setSearchParams] = useSearchParams({ entertainment: 'song' });
+  
+  const entertainmentSelected: EntityType = searchParams.get("entertainment") as EntityType || 'song';
+  const currentSchema = schemaRegistry[entertainmentSelected];
+  const currentValidation = validationRegistry[entertainmentSelected];
 
   const handleSubmit = (values: EntertainmentField): void => {
-    console.log({ entity, values })
+    console.log({ entertainmentSelected, values })
   }
 
   const handleChangeEntity = (e: RadioChangeEvent) => {
-    setEntity(e.target.value);
     form.resetFields();
+    searchParams.set("entertainment", e.target.value);
+    setSearchParams(searchParams);
   }
 
   return (
     <Form
-      key={entity}
+      key={entertainmentSelected}
       form={form}
       layout="vertical"
       onFinish={handleSubmit}
@@ -36,7 +38,7 @@ export const EntertainmentForm = () => {
         <Col span={24} style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}>
           <Radio.Group
             buttonStyle="solid"
-            value={entity}
+            value={entertainmentSelected}
             onChange={handleChangeEntity}
             >
             {entityOptions.map(option => (
