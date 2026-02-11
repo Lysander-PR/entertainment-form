@@ -31,7 +31,8 @@ export const createSchema = ({
         type: TypeRenderer.SELECT,
         colProps,
         selectProps: {
-            options: albumOptions
+            options: albumOptions,
+            allowClear: true
         }
     },
     {
