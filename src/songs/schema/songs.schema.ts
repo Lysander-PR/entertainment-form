@@ -1,6 +1,7 @@
 import { TypeRenderer } from "@/types/enums/type-renderer.enum";
 import type { SchemaEntertainment } from "@/types/interfaces/schemas.interface";
 import type { SongField } from "@/songs/types/song-field.type";
+import type { CustomSelectProps } from "@/types/interfaces/custom-select.interface";
 
 const colProps: SchemaEntertainment<SongField>['colProps'] = {
     xs: 24,
@@ -8,7 +9,16 @@ const colProps: SchemaEntertainment<SongField>['colProps'] = {
 }
 
 type SongSchema = SchemaEntertainment<SongField>;
-export const schema: SongSchema[] = [
+
+export interface SongSchemaProps {
+    albumOptions: CustomSelectProps['options'];
+    genreOptions: CustomSelectProps['options'];
+}
+
+export const createSchema = ({
+    albumOptions,
+    genreOptions
+}: SongSchemaProps): SongSchema[] => [
     {
         field: 'artist',
         label: 'Artist',
@@ -21,7 +31,7 @@ export const schema: SongSchema[] = [
         type: TypeRenderer.SELECT,
         colProps,
         selectProps: {
-            options: []
+            options: albumOptions
         }
     },
     {
@@ -48,7 +58,7 @@ export const schema: SongSchema[] = [
         type: TypeRenderer.SELECT,
         colProps,
         selectProps: {
-            options: []
+            options: genreOptions
         }
     },
     {

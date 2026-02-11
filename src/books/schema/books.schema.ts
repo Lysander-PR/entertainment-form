@@ -3,7 +3,7 @@ import type { BookField } from "@/books/types/book-field.type";
 import type { SchemaEntertainment } from "@/types/interfaces/schemas.interface";
 
 type BookSchema = SchemaEntertainment<BookField>;
-export const schema: BookSchema[] = [
+export const createSchema = (): BookSchema[] => [
     {
         field: 'author',
         label: 'Author',

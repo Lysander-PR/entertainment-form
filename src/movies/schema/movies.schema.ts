@@ -8,7 +8,7 @@ const colProps: SchemaEntertainment<MovieField>['colProps'] = {
 };
 
 type MovieSchema = SchemaEntertainment<MovieField>;
-export const schema: MovieSchema[] = [
+export const createSchema = (): MovieSchema[] => [
     {
         field: 'director',
         label: 'Director',
