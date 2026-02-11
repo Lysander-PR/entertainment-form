@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getAlbums } from "../actions/get-albums"
+import { getAlbums } from "@/songs/actions/get-albums"
 
 export const useAlbums = (idArtist: string) => {
   return useQuery({
