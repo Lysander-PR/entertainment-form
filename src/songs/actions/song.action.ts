@@ -17,3 +17,13 @@ export const getSong = async (id: string): Promise<Song> => {
         title: response.title
     }
 }
+
+export const createSong = async (song: Song): Promise<Song> => {
+    console.log('Creating song...', song);
+    return song;
+}
+
+export const updateSong = async (id: string, song: Song): Promise<Song> => {
+    console.log(`Updating song with id ${id}...`, song);
+    return song;
+}
