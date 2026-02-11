@@ -13,6 +13,7 @@ export const CustomDragger = ({
   return (
     <Dragger
       fileList={fileList}
+      beforeUpload={() => false}
       {...draggerProps}
     >
         <p className="ant-upload-drag-icon">

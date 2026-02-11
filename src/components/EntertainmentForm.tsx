@@ -1,5 +1,6 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button, Col, Form, Radio, Row, type RadioChangeEvent } from "antd"
+import type { UploadFile } from 'antd/es/upload/interface'
 import { useSearchParams } from "react-router-dom"
 
 import { CustomRenderer } from "@/share/components/CustomRenderer"
@@ -14,9 +15,11 @@ import type { EntertainmentField } from "@/types/entertainment.type"
 import { useInitialValues } from "@/hooks/useInitialValues"
 import { useAlbums } from "@/songs/hooks/useAlbums"
 import { useGenres } from "@/songs/hooks/useGenres"
+import type { UploadChangeParam } from "antd/lib/upload"
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
+  const [fileLists, setFileLists] = useState<UploadFile[]>([]);
   const [searchParams, setSearchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
 
   const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
@@ -38,7 +41,11 @@ export const EntertainmentForm = () => {
   }, [initialValues, form]);
 
   const handleSubmit = (values: EntertainmentField): void => {
-    console.log({ entertainmentSelected, values })
+    console.log({ entertainmentSelected, values, fileLists })
+  }
+
+  const handleDraggerChange = (info: UploadChangeParam<UploadFile<unknown>>) => {
+    setFileLists(info.fileList);
   }
 
   const handleChangeEntity = (e: RadioChangeEvent) => {
@@ -84,7 +91,7 @@ export const EntertainmentForm = () => {
               inputNumberProps={item.inputNumberProps}
               datePickerProps={item.datePickerProps}
               selectProps={item.selectProps}
-              draggerProps={item.draggerProps}
+              draggerProps={item.draggerProps ? {...item.draggerProps, onChange: handleDraggerChange} : undefined}
             />
           </Form.Item>
         </Col>
