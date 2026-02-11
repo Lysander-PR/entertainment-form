@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getSong } from "@/songs/actions/get-song"
+import { getSong } from "@/songs/actions/song.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 
 export const useSong = (id: string) => {
