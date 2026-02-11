@@ -1,9 +1,9 @@
 export const movieMock = {
-  director: "Christopher Nolan",
-  protagonist: "Leonardo DiCaprio",
-  writer: "Jonathan Nolan",
-  studio: "Warner Bros Pictures",
-  releaseDate: 1813298400000, // 2027-06-18T06:00:00.000Z
-  soundtrack: "https://example.com/soundtracks/inception-main-theme",
-  poster: "https://example.com/assets/posters/poster.jpg"
+  director: "Robert Eggers",
+  protagonist: "Willem Dafoe, Robert Pattinson",
+  writer: "Robert Eggers, Max Eggers",
+  studio: "A24",
+  releaseDate: 1571368800000, // 2019-10-18T06:00:00-06:00
+  soundtrack: "https://example.com/soundtracks/the-lighthouse-theme",
+  poster: "https://example.com/assets/posters/the-lighthouse.jpg"
 }
