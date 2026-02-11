@@ -12,9 +12,11 @@ const validations: Partial<Record<BookField, Yup.AnySchema>> = {
         .min(3, "Author must have at least 3 characters")
         .max(50, "Author must have max 50 characters"),
     cowriter: Yup.string()
-        .matches(/^[a-zA-Z\s]+$/, "Co-Writer must contain only letters and spaces")
+        .transform((value) => (value?.trim() === '' ? undefined : value))
+        .matches(/^[a-zA-Z\s]*$/, "Co-Writer must contain only letters and spaces")
         .min(3, "Co-Writer must have at least 3 characters")
-        .max(50, "Co-Writer must have max 50 characters"),
+        .max(50, "Co-Writer must have max 50 characters")
+        .optional(),
     publisher: Yup.string()
         .required("Publisher is required")
         .max(100, "Publisher must have max 100 characters"),
