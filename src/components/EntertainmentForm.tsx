@@ -1,58 +1,37 @@
-import { useEffect, useState } from "react"
-import { Button, Col, Form, Radio, Row, type RadioChangeEvent } from "antd"
-import type { UploadFile } from 'antd/es/upload/interface'
+import { useEffect } from "react"
+import { Button, Col, Form, Radio, Row } from "antd"
 import { useSearchParams } from "react-router-dom"
 
 import { CustomRenderer } from "@/share/components/CustomRenderer"
 
 import { createYupSync } from "@/utils/createYupSync"
-import { schemaRegistry } from "@/constants/schema-registry"
-import { validationRegistry } from "@/constants/validation-registry"
+
 import { entertainmentOptions } from "@/constants/entertainment-optionts"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
-import type { EntertainmentField } from "@/types/entertainment.type" 
 
 import { useInitialValues } from "@/hooks/useInitialValues"
-import { useAlbums } from "@/songs/hooks/useAlbums"
-import { useGenres } from "@/songs/hooks/useGenres"
-import type { UploadChangeParam } from "antd/lib/upload"
+import { useEntertainmentForm } from "@/hooks/useEntertainmentForm"
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
-  const [fileLists, setFileLists] = useState<UploadFile[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
+  const [searchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
 
   const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
 
   const artist = Form.useWatch('artist', form)
 
-  const { data: albumsByArtist } = useAlbums(entertainmentSelected === TypeEntertainment.SONG ? (artist ?? '') : '')
-  const { data: musicGenres } = useGenres(entertainmentSelected === TypeEntertainment.SONG)
-
-  const currentValidation = validationRegistry[entertainmentSelected];
-  const currentSchema = schemaRegistry[entertainmentSelected]({
-    albumOptions: albumsByArtist?.map(album => ({ label: album.title, value: album.id })) ?? [],
-    genreOptions: musicGenres?.map(genre => ({ label: genre.description, value: genre.id })) ?? [],
-  });
+  const {
+    schema,
+    validations,
+    handleSubmit,
+    handleDraggerChange,
+    handleChangeEntity
+  } = useEntertainmentForm({ entertainmentSelected, artist });
 
   const { data: initialValues } = useInitialValues(entertainmentSelected, 'value-id-123-example-if-needed');
   useEffect(() => {
     form.setFieldsValue(initialValues);
   }, [initialValues, form]);
-
-  const handleSubmit = (values: EntertainmentField): void => {
-    console.log({ entertainmentSelected, values, fileLists })
-  }
-
-  const handleDraggerChange = (info: UploadChangeParam<UploadFile<unknown>>) => {
-    setFileLists(info.fileList);
-  }
-
-  const handleChangeEntity = (e: RadioChangeEvent) => {
-    form.resetFields();
-    searchParams.set("entertainment", e.target.value);
-    setSearchParams(searchParams);
-  }
 
   return (
     <Form
@@ -78,12 +57,12 @@ export const EntertainmentForm = () => {
       </Row>
 
       <Row gutter={16}>
-      {currentSchema.map((item) => (
+      {schema.map((item) => (
         <Col key={item.field} {...item.colProps}>
           <Form.Item 
             name={item.field}
             label={item.label}
-            rules={[createYupSync(currentValidation, item.field)]}
+            rules={[createYupSync(validations, item.field)]}
           >
             <CustomRenderer
               type={item.type}
