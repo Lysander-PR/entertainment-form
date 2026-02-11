@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 
 import { TypeEntertainment } from '@/types/enums/type-entertainment.enum'
 
-import { getSong } from '@/songs/actions/get-song'
-import { getBook } from '@/books/actions/get-book'
-import { getMovie } from '@/movies/actions/get-movie'
+import { getSong } from '@/songs/actions/song.action'
+import { getBook } from '@/books/actions/book.action'
+import { getMovie } from '@/movies/actions/movie.action'
 import type { Song } from '@/songs/entities/song.entity'
 import type { Book } from '@/books/types/entities/book.entity'
 import type { Movie } from '@/movies/entities/movie.entity'
