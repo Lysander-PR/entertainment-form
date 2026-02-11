@@ -10,15 +10,27 @@ import { validationRegistry } from "@/constants/validation-registry"
 import { entertainmentOptions } from "@/constants/entertainment-optionts"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { EntertainmentField } from "@/types/entertainment.type" 
+
 import { useInitialValues } from "@/hooks/useInitialValues"
+import { useAlbums } from "@/songs/hooks/useAlbums"
+import { useGenres } from "@/songs/hooks/useGenres"
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
 
   const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
-  const currentSchema = schemaRegistry[entertainmentSelected];
+
+  const artist = Form.useWatch('artist', form)
+
+  const { data: albumsByArtist } = useAlbums(entertainmentSelected === TypeEntertainment.SONG ? (artist ?? '') : '')
+  const { data: musicGenres } = useGenres(entertainmentSelected === TypeEntertainment.SONG)
+
   const currentValidation = validationRegistry[entertainmentSelected];
+  const currentSchema = schemaRegistry[entertainmentSelected]({
+    albumOptions: albumsByArtist?.map(album => ({ label: album.title, value: album.id })) ?? [],
+    genreOptions: musicGenres?.map(genre => ({ label: genre.description, value: genre.id })) ?? [],
+  });
 
   const { data: initialValues } = useInitialValues(entertainmentSelected, 'value-id-123-example-if-needed');
   useEffect(() => {
