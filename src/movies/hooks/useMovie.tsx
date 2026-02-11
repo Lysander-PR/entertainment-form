@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getMovie } from "@/movies/actions/get-movie"
+import { getMovie } from "@/movies/actions/movie.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 
 export const useMovie = (id: string) => {
