@@ -58,7 +58,9 @@ export const createSchema = (): MovieSchema[] => [
         colProps: { span: 24 },
         draggerProps: {
             title: 'Click or drag file to this area to upload',
-            description: 'Support for a single upload. Strictly prohibit from uploading company data or other band files.'
+            description: 'Support for multiple upload. Strictly prohibit from uploading company data or other band files.',
+            multiple: true,
+            accept: 'image/png, image/jpeg, image/jpg',
         }
     },
 ];

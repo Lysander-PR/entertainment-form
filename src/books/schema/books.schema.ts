@@ -29,7 +29,8 @@ export const createSchema = (): BookSchema[] => [
         colProps: { span: 24 },
         draggerProps: {
             title: 'Click or drag file to this area to upload a cover',
-            description: 'The cover image will be used in the book listing and details page (jpg)'
+            description: 'The cover image will be used in the book listing and details page (jpg)',
+            accept: 'image/jpeg, image/jpg'
         }
     },
     {

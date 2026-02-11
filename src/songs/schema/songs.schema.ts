@@ -80,7 +80,8 @@ export const createSchema = ({
         colProps,
         draggerProps: {
             title: 'Click or drag file to this area to upload and use it as cover art for the song',
-            description: 'Support for a single upload (jpg/png)'
+            description: 'Support for a single upload (jpg/png)',
+            accept: 'image/png, image/jpeg'
         }
     }
 ]
