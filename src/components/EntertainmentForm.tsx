@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { Button, Col, Form, Radio, Row } from "antd"
 import { useSearchParams } from "react-router-dom"
 
-import { CustomRenderer } from "@/share/components/CustomRenderer"
+import { CustomRenderer } from "@/components/CustomRenderer"
 
 import { createYupSync } from "@/utils/createYupSync"
 
