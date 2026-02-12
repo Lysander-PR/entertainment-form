@@ -14,3 +14,13 @@ export const getBook = async (id: string): Promise<Book> => {
         title: response.title
     }
 }
+
+export const createBook = async (book: Book): Promise<Book> => {
+    console.log('Creating book...', book);
+    return book;
+}
+
+export const updateBook = async (id: string, book: Book): Promise<Book> => {
+    console.log(`Updating book with id ${id}...`, book);
+    return book;
+}

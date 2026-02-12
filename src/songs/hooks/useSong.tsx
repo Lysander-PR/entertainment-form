@@ -23,12 +23,12 @@ export const useSong = (id: string) => {
         },
         onSuccess: (song) => {
             queryClient.invalidateQueries({ queryKey: [TypeEntertainment.SONG, id] })
-            queryClient.setQueryData([TypeEntertainment.SONG, 'song.id'], song);
+            queryClient.setQueryData([TypeEntertainment.SONG, id], song);
         }
     })
 
     return {
-        ...query,
+        query,
         mutation
     };
 }

@@ -1,12 +1,34 @@
-import { useQuery } from "@tanstack/react-query"
-import { getBook } from "@/books/actions/book.action"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { createBook, getBook, updateBook } from "@/books/actions/book.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
+import type { Book } from "@/books/types/entities/book.entity";
 
 export const useBook = (id: string) => {
-    return useQuery({
+    const queryClient = useQueryClient();
+
+    const query = useQuery({
         queryKey: [TypeEntertainment.BOOK, id],
         queryFn: () => getBook(id),
         staleTime: 1000 * 60 * 2, // * 2 minutes
         enabled: !!id
     })
+
+    const mutation = useMutation({
+        mutationFn: (book: Book) => {
+            if (id) {
+                return updateBook(id, book);
+            }
+
+            return createBook(book);
+        },
+        onSuccess: (book) => {
+            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.BOOK, id] })
+            queryClient.setQueryData([TypeEntertainment.BOOK, id], book);
+        }
+    })
+
+    return {
+        query,
+        mutation
+    };
 }

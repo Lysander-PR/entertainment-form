@@ -15,3 +15,13 @@ export const getMovie = async (id: string): Promise<Movie> => {
         poster: response.poster || ''
     }
 }
+
+export const createMovie = async (movie: Movie): Promise<Movie> => {
+    console.log('Creating movie...', movie);
+    return movie;
+}
+
+export const updateMovie = async (id: string, movie: Movie): Promise<Movie> => {
+    console.log(`Updating movie with id ${id}...`, movie);
+    return movie;
+}
