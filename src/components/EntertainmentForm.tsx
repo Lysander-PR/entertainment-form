@@ -17,6 +17,7 @@ export const EntertainmentForm = () => {
   const [searchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
 
   const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
+  const id = searchParams.get("id") || 'value-id-123-example-if-needed';
 
   const artist = Form.useWatch('artist', form)
 
@@ -26,9 +27,9 @@ export const EntertainmentForm = () => {
     handleSubmit,
     handleDraggerChange,
     handleChangeEntity
-  } = useEntertainmentForm({ entertainmentSelected, artist });
+  } = useEntertainmentForm({ entertainmentSelected, artist, id });
 
-  const { data: initialValues } = useInitialValues(entertainmentSelected, 'value-id-123-example-if-needed');
+  const { data: initialValues } = useInitialValues(entertainmentSelected, id);
   useEffect(() => {
     form.setFieldsValue(initialValues);
   }, [initialValues, form]);

@@ -6,4 +6,5 @@ export interface Movie {
     releaseDate?: Date;
     soundtrack: string;
     poster: string;
+    title: string;
 }
