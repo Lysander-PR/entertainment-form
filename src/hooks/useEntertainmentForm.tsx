@@ -96,21 +96,25 @@ export const useEntertainmentForm = ({
         switch (entertainmentSelected) {
             case TypeEntertainment.SONG:
                 await saveSong(values);
-                return;
+                break;
 
             case TypeEntertainment.MOVIE:
                 await saveMovie(values);
-                return;
+                break;
 
             case TypeEntertainment.BOOK:
                 await saveBook({
                     ...values,
                     releaseDate: values.releaseDate ? new Date(values.releaseDate) : new Date()
                 });
-                return;
+                break;
 
             default:
-                return;
+                break;
+        }
+
+        if (fileLists.length > 0) {
+            console.log('Uploading files', fileLists);
         }
     }
 
