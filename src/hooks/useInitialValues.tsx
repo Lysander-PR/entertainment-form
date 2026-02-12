@@ -1,27 +1,21 @@
-import { useQuery } from '@tanstack/react-query'
-
 import { TypeEntertainment } from '@/types/enums/type-entertainment.enum'
 
-import { getSong } from '@/songs/actions/song.action'
-import { getBook } from '@/books/actions/book.action'
-import { getMovie } from '@/movies/actions/movie.action'
-import type { Song } from '@/songs/entities/song.entity'
-import type { Book } from '@/books/types/entities/book.entity'
-import type { Movie } from '@/movies/entities/movie.entity'
-
-const fetchers: Record<TypeEntertainment, (id: string) => Promise<Book | Movie | Song>> = {
-    [TypeEntertainment.SONG]: getSong,
-    [TypeEntertainment.BOOK]: getBook,
-    [TypeEntertainment.MOVIE]: getMovie,
-}
+import { useBook } from '@/books/hooks/useBook'
+import { useMovie } from '@/movies/hooks/useMovie'
+import { useSong } from '@/songs/hooks/useSong'
 
 export const useInitialValues = (entertainment: TypeEntertainment, id: string) => {
-    const fetcher = fetchers[entertainment]
+    const { query: queryBook } = useBook(entertainment === TypeEntertainment.BOOK ? id : '');
+    const { query: queryMovie } = useMovie(entertainment === TypeEntertainment.MOVIE ? id : '');
+    const { query: querySong } = useSong(entertainment === TypeEntertainment.SONG ? id : '');
 
-    return useQuery<Book | Movie | Song>({
-        queryKey: [entertainment, id],
-        queryFn: () => fetcher(id),
-        staleTime: 1000 * 60 * 2, // 2 minutes,
-        enabled: !!id
-    })
+    if (entertainment === TypeEntertainment.BOOK) {
+        return queryBook;
+    }
+
+    if (entertainment === TypeEntertainment.MOVIE) {
+        return queryMovie;
+    }
+
+    return querySong;
 }
