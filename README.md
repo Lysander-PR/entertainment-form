@@ -18,7 +18,26 @@ A dynamic form built with React and TypeScript that allows users to create and m
 
 Desktop:
 
+form song
+<img width="1835" height="1028" alt="imagen" src="https://github.com/user-attachments/assets/771e2989-e603-4ee9-9387-ccbb406723cc" />
+
+form movie
+<img width="1856" height="888" alt="imagen" src="https://github.com/user-attachments/assets/f3a10927-338a-4274-a40a-31d499416ce2" />
+
+form book
+<img width="1856" height="888" alt="imagen" src="https://github.com/user-attachments/assets/8972c095-9a5d-42b9-90dd-6e7cde2fd5f9" />
+
+
 Mobile:
+
+form song
+<img width="468" height="1548" alt="imagen" src="https://github.com/user-attachments/assets/81f1d7ec-60f6-481e-92d6-ed38007270b6" />
+
+form movie
+<img width="468" height="1465" alt="imagen" src="https://github.com/user-attachments/assets/3f53719d-3f6b-4e16-b444-64180ce295d2" />
+
+form book
+<img width="468" height="1222" alt="imagen" src="https://github.com/user-attachments/assets/d98b3d05-6e91-4a5a-a80c-86e74a77fe9c" />
 
 
 Live demo (if deployed):
