@@ -1,5 +1,6 @@
 export const movieMock = {
   director: "Robert Eggers",
+  title: "The Lighthouse",
   protagonist: "Willem Dafoe, Robert Pattinson",
   writer: "Robert Eggers, Max Eggers",
   studio: "A24",
