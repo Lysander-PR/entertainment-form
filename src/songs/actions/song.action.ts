@@ -6,6 +6,7 @@ export const getSong = async (id: string): Promise<Song> => {
     const response: SongResponse = songMock;
 
     return {
+        id,
         album: response.album,
         artist: response.artist,
         composer: response.composer,

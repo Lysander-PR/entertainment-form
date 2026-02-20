@@ -6,13 +6,15 @@ export const getMovie = async (id: string): Promise<Movie> => {
     const response: MovieResponse = movieMock;
 
     return {
+        id,
         director: response.director,
         protagonist: response.protagonist,
         writer: response.writer,
         studio: response.studio,
         releaseDate: response.releaseDate ? new Date(response.releaseDate) : undefined,
         soundtrack: response.soundtrack || '',
-        poster: response.poster || ''
+        poster: response.poster || '',
+        title: response.title
     }
 }
 

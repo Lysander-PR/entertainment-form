@@ -6,6 +6,7 @@ export const getBook = async (id: string): Promise<Book> => {
     const response: BookResponse = mockBook;
 
     return {
+        id,
         author: response.author,
         cowriter: response.cowriter || '',
         coverImage: response.coverImage || '',

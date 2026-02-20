@@ -1,4 +1,5 @@
 export interface Movie {
+    id: string;
     director: string;
     protagonist: string;
     writer: string;
