@@ -45,8 +45,7 @@ form book
 <img width="468" height="1222" alt="imagen" src="https://github.com/user-attachments/assets/d98b3d05-6e91-4a5a-a80c-86e74a77fe9c" />
 
 Errors in inputs:
-<img width="1856" height="888" alt="imagen" src="https://github.com/user-attachments/assets/ff935e39-f119-4d2f-8ead-fccb45929f37" />
-
+<img width="1856" height="888" alt="imagen" src="https://github.com/user-attachments/assets/987e2089-a162-475d-bc9a-2d3b4f5c9b0b" />
 
 
 Live demo (if deployed):
