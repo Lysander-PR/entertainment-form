@@ -38,6 +38,7 @@ https://demo-url.com
 ---
 
 ## 🏗 Project Structure
+```
 ├── books/ # "books" domain: actions, hooks, schema, validations, types and specific components
 ├── components/ # Reusable UI components
 ├── constants/ # Shared constants and registries
@@ -48,6 +49,7 @@ https://demo-url.com
 ├── types/ # Shared TypeScript types/entities/enums/interfaces used across domains
 ├── utils/ # Shared utilities/helpers (e.g. Yup ↔ form sync helpers)
 └── main.tsx
+```
 
 
 ---
