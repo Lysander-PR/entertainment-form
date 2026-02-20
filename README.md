@@ -48,8 +48,8 @@ Errors in inputs:
 <img width="1856" height="888" alt="imagen" src="https://github.com/user-attachments/assets/987e2089-a162-475d-bc9a-2d3b4f5c9b0b" />
 
 
-Live demo (if deployed):
-https://demo-url.com
+Live demo:
+https://entertainment-form.vercel.app
 
 ---
 
