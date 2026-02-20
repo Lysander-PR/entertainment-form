@@ -83,10 +83,11 @@ https://demo-url.com
 ---
 
 ## ⚙️ Getting Started
-
+```
 Clone the repository:
 git clone https://github.com/Lysander-PR/entertainment-form.git
 cd entertainment-form
+```
 
 ---
 
