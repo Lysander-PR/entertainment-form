@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { message, type RadioChangeEvent } from 'antd'
 import type { UploadFile } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from "antd/lib/upload"
+import dayjs from 'dayjs'
 
 import { schemaRegistry } from "@/constants/schema-registry"
 import { validationRegistry } from "@/constants/validation-registry"
@@ -18,33 +18,48 @@ import { useGenres } from "@/songs/hooks/useGenres"
 import { useMovie } from '@/movies/hooks/useMovie'
 import { useSong } from '@/songs/hooks/useSong'
 import { useBook } from '@/books/hooks/useBook'
+import { useEntertainmentParams } from '@/hooks/useEntertainmentParams'
 
 interface Props {
-    entertainmentSelected: TypeEntertainment;
-    id: string;
     artist?: string;
 }
 
-export const useEntertainmentForm = ({
-    entertainmentSelected,
-    id,
-    artist
-}: Props) => {
-    const [searchParams, setSearchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
+export const useEntertainmentForm = ({ artist }: Props) => {
+    const { entertainmentSelected, id, isEditing, changeEntertainment } = useEntertainmentParams();
     const [fileLists, setFileLists] = useState<UploadFile[]>([]);
 
     const { data: albumsByArtist } = useAlbums(entertainmentSelected === TypeEntertainment.SONG ? (artist ?? '') : '')
     const { data: musicGenres } = useGenres(entertainmentSelected === TypeEntertainment.SONG)
 
-    const { mutation: mutationMovie } = useMovie(id);
-    const { mutation: mutationSong } = useSong(id)
-    const { mutation: mutationBook } = useBook(id)
+    const { query: queryMovie, mutation: mutationMovie } = useMovie(entertainmentSelected === TypeEntertainment.MOVIE ? id : '');
+    const { query: querySong, mutation: mutationSong } = useSong(entertainmentSelected === TypeEntertainment.SONG ? id : '')
+    const { query: queryBook, mutation: mutationBook } = useBook(entertainmentSelected === TypeEntertainment.BOOK ? id : '')
+
+    const queryRegistry = {
+        [TypeEntertainment.SONG]: querySong,
+        [TypeEntertainment.MOVIE]: queryMovie,
+        [TypeEntertainment.BOOK]: queryBook
+    };
+
+    const {
+        data: record,
+        isFetching: isLoadingRecord,
+        error: recordError
+    } = queryRegistry[entertainmentSelected];
 
     const currentValidation = validationRegistry[entertainmentSelected];
     const currentSchema = schemaRegistry[entertainmentSelected]({
         albumOptions: albumsByArtist?.map(album => ({ label: album.title, value: album.id })) ?? [],
         genreOptions: musicGenres?.map(genre => ({ label: genre.description, value: genre.id })) ?? [],
     });
+
+    useEffect(() => {
+        if (!recordError) {
+            return;
+        }
+
+        message.error(`Failed to load the ${entertainmentSelected}: ${recordError.message}`);
+    }, [recordError, entertainmentSelected]);
 
     const saveSong = async (values: Song) => {
         await mutationSong.mutateAsync(values, {
@@ -97,23 +112,19 @@ export const useEntertainmentForm = ({
     }
 
     const handleSubmit = async (values: EntertainmentForm): Promise<void> => {
+        const releaseDate = values.releaseDate ? dayjs(values.releaseDate).toDate() : new Date();
+
         switch (entertainmentSelected) {
             case TypeEntertainment.SONG:
                 await saveSong(values);
                 break;
 
             case TypeEntertainment.MOVIE:
-                await saveMovie({
-                    ...values,
-                    releaseDate: values.releaseDate ? new Date(values.releaseDate) : new Date()
-                });
+                await saveMovie({ ...values, releaseDate });
                 break;
 
             case TypeEntertainment.BOOK:
-                await saveBook({
-                    ...values,
-                    releaseDate: values.releaseDate ? new Date(values.releaseDate) : new Date()
-                });
+                await saveBook({ ...values, releaseDate });
                 break;
 
             default:
@@ -126,11 +137,14 @@ export const useEntertainmentForm = ({
     }
 
     const handleChangeEntity = (e: RadioChangeEvent) => {
-        searchParams.set("entertainment", e.target.value);
-        setSearchParams(searchParams);
+        changeEntertainment(e.target.value);
     }
 
     return {
+        entertainmentSelected,
+        isEditing,
+        initialValues: record,
+        isLoadingRecord,
         schema: currentSchema,
         validations: currentValidation,
         handleSubmit,

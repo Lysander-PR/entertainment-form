@@ -1,36 +1,37 @@
 import { useEffect } from "react"
-import { Button, Col, Form, Radio, Row } from "antd"
-import { useSearchParams } from "react-router-dom"
+import { Button, Col, Form, Radio, Row, Spin } from "antd"
 
 import { CustomRenderer } from "@/components/CustomRenderer"
 
 import { createYupSync } from "@/utils/createYupSync"
 
 import { entertainmentOptions } from "@/constants/entertainment-optionts"
-import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 
-import { useInitialValues } from "@/hooks/useInitialValues"
 import { useEntertainmentForm } from "@/hooks/useEntertainmentForm"
 
 export const EntertainmentForm = () => {
   const [form] = Form.useForm();
-  const [searchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
-
-  const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
-  const id = searchParams.get("id") ?? '';
 
   const artist = Form.useWatch('artist', form)
 
   const {
+    entertainmentSelected,
+    isEditing,
+    initialValues,
+    isLoadingRecord,
     schema,
     validations,
     handleSubmit,
     handleDraggerChange,
     handleChangeEntity
-  } = useEntertainmentForm({ entertainmentSelected, artist, id });
+  } = useEntertainmentForm({ artist });
 
-  const { data: initialValues } = useInitialValues(entertainmentSelected, id);
   useEffect(() => {
+    if (!initialValues) {
+      form.resetFields();
+      return;
+    }
+
     form.setFieldsValue(initialValues);
   }, [initialValues, form]);
 
@@ -57,30 +58,32 @@ export const EntertainmentForm = () => {
         </Col>
       </Row>
 
-      <Row gutter={16}>
-      {schema.map((item) => (
-        <Col key={item.field} {...item.colProps}>
-          <Form.Item 
-            name={item.field}
-            label={item.label}
-            rules={[createYupSync(validations, item.field)]}
-          >
-            <CustomRenderer
-              type={item.type}
-              inputProps={item.inputProps}
-              inputNumberProps={item.inputNumberProps}
-              datePickerProps={item.datePickerProps}
-              selectProps={item.selectProps}
-              draggerProps={item.draggerProps ? {...item.draggerProps, onChange: handleDraggerChange} : undefined}
-            />
-          </Form.Item>
-        </Col>
-      ))}
-      </Row>
+      <Spin spinning={isLoadingRecord}>
+        <Row gutter={16}>
+        {schema.map((item) => (
+          <Col key={item.field} {...item.colProps}>
+            <Form.Item
+              name={item.field}
+              label={item.label}
+              rules={[createYupSync(validations, item.field)]}
+            >
+              <CustomRenderer
+                type={item.type}
+                inputProps={item.inputProps}
+                inputNumberProps={item.inputNumberProps}
+                datePickerProps={item.datePickerProps}
+                selectProps={item.selectProps}
+                draggerProps={item.draggerProps ? {...item.draggerProps, onChange: handleDraggerChange} : undefined}
+              />
+            </Form.Item>
+          </Col>
+        ))}
+        </Row>
+      </Spin>
 
       <div className="flex justify-end">
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button type="primary" htmlType="submit" disabled={isLoadingRecord}>
+          {isEditing ? 'Update' : 'Submit'}
         </Button>
       </div>
     </Form>
