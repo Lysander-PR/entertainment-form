@@ -3,5 +3,5 @@ export type BookField =
     | 'title'
     | 'publisher'
     | 'releaseDate'
-    | 'cowriter'
+    | 'coWriter'
     | 'coverImage'

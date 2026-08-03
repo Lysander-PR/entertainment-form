@@ -11,7 +11,7 @@ export const createSchema = (): BookSchema[] => [
         colProps: { xs: 24, md: 8 }
     },
     {
-        field: 'cowriter',
+        field: 'coWriter',
         label: 'Co-Writer',
         type: TypeRenderer.INPUT,
         colProps: { xs: 24, md: 8 }

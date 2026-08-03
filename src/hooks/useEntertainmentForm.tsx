@@ -78,7 +78,9 @@ export const useEntertainmentForm = ({
     }
 
     const saveBook = async (values: Book) => {
-        await mutationBook.mutateAsync(values, {
+        const cover = fileLists[0]?.originFileObj;
+
+        await mutationBook.mutateAsync({ book: values, cover }, {
             onSuccess: (data) => {
                 message.success(`Book ${data.title} saved successfully!`);
             },
@@ -111,10 +113,6 @@ export const useEntertainmentForm = ({
 
             default:
                 break;
-        }
-
-        if (fileLists.length > 0) {
-            console.log('Uploading files', fileLists);
         }
     }
 

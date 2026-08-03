@@ -1,35 +1,31 @@
 import * as Yup from "yup";
+import { alphaWithSpacesRegex } from "@/constants/regular-expressions";
+import { cleanInputString, cleanOptionalInputString } from "@/utils/cleanInputString";
 import type { BookField } from "@/books/types/book-field.type";
-
-const minDate = new Date();
-const maxDate = new Date(minDate);
-maxDate.setMonth(maxDate.getMonth() + 7);
 
 const validations: Partial<Record<BookField, Yup.AnySchema>> = {
     author: Yup.string()
+        .transform(cleanInputString)
         .required("Author is required")
-        .matches(/^[a-zA-Z\s]+$/, "Author must contain only letters and spaces")
-        .min(3, "Author must have at least 3 characters")
-        .max(50, "Author must have max 50 characters"),
-    cowriter: Yup.string()
-        .transform((value) => (value?.trim() === '' ? undefined : value))
-        .matches(/^[a-zA-Z\s]*$/, "Co-Writer must contain only letters and spaces")
-        .min(3, "Co-Writer must have at least 3 characters")
-        .max(50, "Co-Writer must have max 50 characters")
+        .matches(alphaWithSpacesRegex, "Author must contain only letters and spaces")
+        .max(30, "Author must have max 30 characters"),
+    coWriter: Yup.string()
+        .transform(cleanOptionalInputString)
+        .matches(alphaWithSpacesRegex, "Co-Writer must contain only letters and spaces")
+        .max(30, "Co-Writer must have max 30 characters")
         .optional(),
-    publisher: Yup.string()
-        .required("Publisher is required")
-        .max(100, "Publisher must have max 100 characters"),
-    releaseDate: Yup.date()
-        .required("Release Date is required")
-        .min(minDate, "Release Date cannot be in the past")
-        .max(maxDate, "Release Date must be within the next 7 months"),
     title: Yup.string()
+        .transform(cleanInputString)
         .required("Title is required")
-        .max(150, "Title must have max 150 characters")
-        .matches(/^[a-zA-Z0-9\s]+$/, "Title must contain only letters, numbers, and spaces"),
+        .max(50, "Title must have max 50 characters"),
+    releaseDate: Yup.date()
+        .required("Release Date is required"),
+    publisher: Yup.string()
+        .transform(cleanInputString)
+        .required("Publisher is required")
+        .max(50, "Publisher must have max 50 characters"),
     coverImage: Yup.mixed()
-        .required("Cover Image is required")
+        .optional()
 }
 
 export const schemaValidation: Yup.ObjectSchema<Yup.AnyObject> = Yup.object().shape(validations);

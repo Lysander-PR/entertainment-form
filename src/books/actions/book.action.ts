@@ -1,27 +1,37 @@
-import { mockBook } from "@/mocks/book.mock"
+import { entertainmentApi } from "@/api/entertainment.api";
+import { handleApiError } from "@/api/handle-api-error";
+import { toBook, toFormData } from "@/books/mappers/book.mapper";
 import type { Book } from "@/books/types/entities/book.entity";
 import type { BookResponse } from "@/books/types/interfaces/book-response.interface";
 
-export const getBook = async (id: string): Promise<Book> => {
-    const response: BookResponse = mockBook;
+const ENDPOINT = '/books';
 
-    return {
-        id,
-        author: response.author,
-        cowriter: response.cowriter || '',
-        coverImage: response.coverImage || '',
-        publisher: response.publisher,
-        releaseDate: response.releaseDate ? new Date(response.releaseDate) : new Date(),
-        title: response.title
+export const getBook = async (id: string): Promise<Book> => {
+    try {
+        const { data } = await entertainmentApi.get<BookResponse>(`${ENDPOINT}/${id}`);
+
+        return toBook(data);
+    } catch (error) {
+        return handleApiError(error, `Could not load the book ${id}`);
     }
 }
 
-export const createBook = async (book: Book): Promise<Book> => {
-    console.log('Creating book...', book);
-    return book;
+export const createBook = async (book: Book, cover?: File): Promise<Book> => {
+    try {
+        const { data } = await entertainmentApi.post<BookResponse>(ENDPOINT, toFormData(book, cover));
+
+        return toBook(data);
+    } catch (error) {
+        return handleApiError(error, 'Could not create the book');
+    }
 }
 
-export const updateBook = async (id: string, book: Book): Promise<Book> => {
-    console.log(`Updating book with id ${id}...`, book);
-    return book;
+export const updateBook = async (id: string, book: Book, cover?: File): Promise<Book> => {
+    try {
+        const { data } = await entertainmentApi.patch<BookResponse>(`${ENDPOINT}/${id}`, toFormData(book, cover));
+
+        return toBook(data);
+    } catch (error) {
+        return handleApiError(error, `Could not update the book ${id}`);
+    }
 }

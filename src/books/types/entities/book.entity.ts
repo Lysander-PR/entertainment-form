@@ -1,7 +1,7 @@
 export interface Book {
     id: string;
     author: string;
-    cowriter: string;
+    coWriter: string;
     publisher: string;
     releaseDate: Date;
     title: string;

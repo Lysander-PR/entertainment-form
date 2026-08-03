@@ -17,7 +17,7 @@ export const EntertainmentForm = () => {
   const [searchParams] = useSearchParams({ entertainment: TypeEntertainment.SONG });
 
   const entertainmentSelected: TypeEntertainment = searchParams.get("entertainment") as TypeEntertainment || TypeEntertainment.SONG;
-  const id = searchParams.get("id") || 'value-id-123-example-if-needed';
+  const id = searchParams.get("id") ?? '';
 
   const artist = Form.useWatch('artist', form)
 

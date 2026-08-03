@@ -1,8 +1,13 @@
+import type { CoverResponse } from "@/types/interfaces/cover-response.interface";
+
 export interface BookResponse {
+    id: string;
     author: string;
-    cowriter?: string;
-    publisher: string;
-    releaseDate: number;
+    coWriter: string | null;
     title: string;
-    coverImage?: string;
+    releaseDate: string;
+    publisher: string;
+    createdAt: string;
+    coverId: string | null;
+    cover?: CoverResponse;
 }
