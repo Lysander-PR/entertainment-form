@@ -3,6 +3,11 @@ import { createMovie, getMovie, updateMovie } from "@/movies/actions/movie.actio
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { Movie } from "@/movies/entities/movie.entity"
 
+interface SaveMovieVariables {
+    movie: Movie;
+    poster?: File;
+}
+
 export const useMovie = (id: string) => {
     const queryClient = useQueryClient();
 
@@ -14,12 +19,12 @@ export const useMovie = (id: string) => {
     })
 
     const mutation = useMutation({
-        mutationFn: (movie: Movie) => {
+        mutationFn: ({ movie, poster }: SaveMovieVariables) => {
             if (id) {
-                return updateMovie(id, movie);
+                return updateMovie(id, movie, poster);
             }
 
-            return createMovie(movie);
+            return createMovie(movie, poster);
         },
         onSuccess: (movie) => {
             queryClient.invalidateQueries({ queryKey: [TypeEntertainment.MOVIE, id] })

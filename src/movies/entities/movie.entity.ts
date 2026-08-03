@@ -4,7 +4,7 @@ export interface Movie {
     protagonist: string;
     writer: string;
     studio: string;
-    releaseDate?: Date;
+    releaseDate: Date;
     soundtrack: string;
     poster: string;
     title: string;
