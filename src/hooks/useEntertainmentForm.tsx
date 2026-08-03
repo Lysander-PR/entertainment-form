@@ -63,7 +63,9 @@ export const useEntertainmentForm = ({
     }
 
     const saveMovie = async (values: Movie) => {
-        await mutationMovie.mutateAsync(values, {
+        const poster = fileLists[0]?.originFileObj;
+
+        await mutationMovie.mutateAsync({ movie: values, poster }, {
             onSuccess: (data) => {
                 message.success(`Movie ${data.title} saved successfully!`);
             },
@@ -101,7 +103,10 @@ export const useEntertainmentForm = ({
                 break;
 
             case TypeEntertainment.MOVIE:
-                await saveMovie(values);
+                await saveMovie({
+                    ...values,
+                    releaseDate: values.releaseDate ? new Date(values.releaseDate) : new Date()
+                });
                 break;
 
             case TypeEntertainment.BOOK:
