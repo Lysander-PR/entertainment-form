@@ -27,8 +27,8 @@ export const useMovie = (id: string) => {
             return createMovie(movie, poster);
         },
         onSuccess: (movie) => {
-            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.MOVIE, id] })
-            queryClient.setQueryData([TypeEntertainment.MOVIE, id], movie);
+            queryClient.setQueryData([TypeEntertainment.MOVIE, movie.id], movie);
+            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.MOVIE, movie.id] })
         }
     })
 

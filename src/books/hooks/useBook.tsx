@@ -27,8 +27,8 @@ export const useBook = (id: string) => {
             return createBook(book, cover);
         },
         onSuccess: (book) => {
-            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.BOOK, id] })
-            queryClient.setQueryData([TypeEntertainment.BOOK, id], book);
+            queryClient.setQueryData([TypeEntertainment.BOOK, book.id], book);
+            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.BOOK, book.id] })
         }
     })
 
