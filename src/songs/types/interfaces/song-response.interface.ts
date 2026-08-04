@@ -1,11 +1,9 @@
+import type { GenreResponse } from "@/genres/types/interfaces/genre-response.interface";
+
 export interface SongResponse {
+    id: string;
     title: string;
-    artist: string;
-    guestArtist?: string;
-    album: string;
     composer: string;
-    studio: string;
-    releaseDate?: number;
-    genre?: string;
-    coverArt?: string;
+    guestArtist?: string;
+    genre?: GenreResponse;
 }

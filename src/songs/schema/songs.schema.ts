@@ -5,35 +5,22 @@ import type { CustomSelectProps } from "@/types/interfaces/custom-select.interfa
 
 const colProps: SchemaEntertainment<SongField>['colProps'] = {
     xs: 24,
-    md: 12
+    md: 12,
+    lg: 6
 }
 
 type SongSchema = SchemaEntertainment<SongField>;
 
 export interface SongSchemaProps {
-    albumOptions: CustomSelectProps['options'];
     genreOptions: CustomSelectProps['options'];
 }
 
-export const createSchema = ({
-    albumOptions,
-    genreOptions
-}: SongSchemaProps): SongSchema[] => [
+export const createSchema = ({ genreOptions }: SongSchemaProps): SongSchema[] => [
     {
-        field: 'artist',
-        label: 'Artist',
+        field: 'title',
+        label: 'Title',
         type: TypeRenderer.INPUT,
         colProps
-    },
-    {
-        field: 'album',
-        label: 'Album',
-        type: TypeRenderer.SELECT,
-        colProps,
-        selectProps: {
-            options: albumOptions,
-            allowClear: true
-        }
     },
     {
         field: 'composer',
@@ -42,47 +29,21 @@ export const createSchema = ({
         colProps
     },
     {
-        field: 'studio',
-        label: 'Studio',
-        type: TypeRenderer.INPUT,
-        colProps
-    },
-    {
-        field: 'releaseDate',
-        label: 'Release Date',
-        type: TypeRenderer.DATE_PICKER,
-        colProps
-    },
-    {
-        field: 'genre',
-        label: 'Genre',
-        type: TypeRenderer.SELECT,
-        colProps,
-        selectProps: {
-            options: genreOptions
-        }
-    },
-    {
         field: 'guestArtist',
         label: 'Guest Artist',
         type: TypeRenderer.INPUT,
         colProps
     },
     {
-        field: 'title',
-        label: 'Title',
-        type: TypeRenderer.INPUT,
-        colProps
-    },
-    {
-        field: 'coverArt',
-        label: 'Cover Art',
-        type: TypeRenderer.DRAGGER,
+        field: 'genreId',
+        label: 'Genre',
+        type: TypeRenderer.SELECT,
         colProps,
-        draggerProps: {
-            title: 'Click or drag file to this area to upload and use it as cover art for the song',
-            description: 'Support for a single upload (jpg/png)',
-            accept: 'image/png, image/jpeg'
+        selectProps: {
+            options: genreOptions,
+            showSearch: true,
+            optionFilterProp: 'label',
+            placeholder: 'Select a genre'
         }
     }
 ]

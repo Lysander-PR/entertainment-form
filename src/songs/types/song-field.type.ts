@@ -1,10 +1,5 @@
 export type SongField =
-    | 'artist'
-    | 'album'
+    | 'title'
     | 'composer'
-    | 'studio'
-    | 'releaseDate'
-    | 'coverArt'
-    | 'genre'
     | 'guestArtist'
-    | 'title';
+    | 'genreId';
