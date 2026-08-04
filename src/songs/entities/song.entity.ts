@@ -1,12 +1,7 @@
 export interface Song {
-    id: string;
+    id?: string;
     title: string;
-    artist: string;
-    guestArtist: string;
-    album: string;
     composer: string;
-    studio: string;
-    releaseDate?: Date;
-    genre: string;
-    coverArt: string;
+    guestArtist: string;
+    genreId: string;
 }

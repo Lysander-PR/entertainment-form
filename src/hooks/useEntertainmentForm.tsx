@@ -9,34 +9,28 @@ import { validationRegistry } from "@/constants/validation-registry"
 
 import { TypeEntertainment } from '@/types/enums/type-entertainment.enum'
 import type { EntertainmentForm } from '@/types/interfaces/entertainment-form'
-import type { Song } from '@/songs/entities/song.entity'
+import type { Album } from '@/albums/types/entities/album.entity'
 import type { Movie } from '@/movies/entities/movie.entity'
 import type { Book } from '@/books/types/entities/book.entity'
 
-import { useAlbums } from "@/songs/hooks/useAlbums"
-import { useGenres } from "@/songs/hooks/useGenres"
+import { useGenres } from "@/genres/hooks/useGenres"
+import { useAlbum } from '@/albums/hooks/useAlbum'
 import { useMovie } from '@/movies/hooks/useMovie'
-import { useSong } from '@/songs/hooks/useSong'
 import { useBook } from '@/books/hooks/useBook'
 import { useEntertainmentParams } from '@/hooks/useEntertainmentParams'
 
-interface Props {
-    artist?: string;
-}
-
-export const useEntertainmentForm = ({ artist }: Props) => {
+export const useEntertainmentForm = () => {
     const { entertainmentSelected, id, isEditing, changeEntertainment } = useEntertainmentParams();
     const [fileLists, setFileLists] = useState<UploadFile[]>([]);
 
-    const { data: albumsByArtist } = useAlbums(entertainmentSelected === TypeEntertainment.SONG ? (artist ?? '') : '')
-    const { data: musicGenres } = useGenres(entertainmentSelected === TypeEntertainment.SONG)
+    const { data: musicGenres } = useGenres(entertainmentSelected === TypeEntertainment.ALBUM)
 
     const { query: queryMovie, mutation: mutationMovie } = useMovie(entertainmentSelected === TypeEntertainment.MOVIE ? id : '');
-    const { query: querySong, mutation: mutationSong } = useSong(entertainmentSelected === TypeEntertainment.SONG ? id : '')
+    const { query: queryAlbum, mutation: mutationAlbum } = useAlbum(entertainmentSelected === TypeEntertainment.ALBUM ? id : '');
     const { query: queryBook, mutation: mutationBook } = useBook(entertainmentSelected === TypeEntertainment.BOOK ? id : '')
 
     const queryRegistry = {
-        [TypeEntertainment.SONG]: querySong,
+        [TypeEntertainment.ALBUM]: queryAlbum,
         [TypeEntertainment.MOVIE]: queryMovie,
         [TypeEntertainment.BOOK]: queryBook
     };
@@ -49,8 +43,7 @@ export const useEntertainmentForm = ({ artist }: Props) => {
 
     const currentValidation = validationRegistry[entertainmentSelected];
     const currentSchema = schemaRegistry[entertainmentSelected]({
-        albumOptions: albumsByArtist?.map(album => ({ label: album.title, value: album.id })) ?? [],
-        genreOptions: musicGenres?.map(genre => ({ label: genre.description, value: genre.id })) ?? [],
+        genreOptions: musicGenres?.map(genre => ({ label: genre.genre, value: genre.id })) ?? [],
     });
 
     useEffect(() => {
@@ -61,10 +54,12 @@ export const useEntertainmentForm = ({ artist }: Props) => {
         message.error(`Failed to load the ${entertainmentSelected}: ${recordError.message}`);
     }, [recordError, entertainmentSelected]);
 
-    const saveSong = async (values: Song) => {
-        await mutationSong.mutateAsync(values, {
+    const saveAlbum = async (values: Album) => {
+        const cover = fileLists[0]?.originFileObj;
+
+        await mutationAlbum.mutateAsync({ album: values, cover }, {
             onSuccess: (data) => {
-                message.success(`Song ${data.title} saved successfully!`);
+                message.success(`Album ${data.album} saved successfully!`);
             },
             onError: (error) => {
                 let errorMessage = 'Unknown error';
@@ -72,7 +67,7 @@ export const useEntertainmentForm = ({ artist }: Props) => {
                     errorMessage = error.message;
                 }
 
-                message.error(`Failed to save song: ${errorMessage}`);
+                message.error(`Failed to save album: ${errorMessage}`);
             }
         });
     }
@@ -115,8 +110,8 @@ export const useEntertainmentForm = ({ artist }: Props) => {
         const releaseDate = values.releaseDate ? dayjs(values.releaseDate).toDate() : new Date();
 
         switch (entertainmentSelected) {
-            case TypeEntertainment.SONG:
-                await saveSong(values);
+            case TypeEntertainment.ALBUM:
+                await saveAlbum({ ...values, releaseDate });
                 break;
 
             case TypeEntertainment.MOVIE:

@@ -6,9 +6,9 @@ const ENTERTAINMENT_PARAM = 'entertainment';
 const ID_PARAM = 'id';
 
 export const useEntertainmentParams = () => {
-    const [searchParams, setSearchParams] = useSearchParams({ [ENTERTAINMENT_PARAM]: TypeEntertainment.SONG });
+    const [searchParams, setSearchParams] = useSearchParams({ [ENTERTAINMENT_PARAM]: TypeEntertainment.ALBUM });
 
-    const entertainmentSelected = searchParams.get(ENTERTAINMENT_PARAM) as TypeEntertainment || TypeEntertainment.SONG;
+    const entertainmentSelected = searchParams.get(ENTERTAINMENT_PARAM) as TypeEntertainment || TypeEntertainment.ALBUM;
     const id = searchParams.get(ID_PARAM) ?? '';
 
     const changeEntertainment = (entertainment: TypeEntertainment) => {
