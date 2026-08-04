@@ -27,8 +27,8 @@ export const useAlbum = (id: string) => {
             return createAlbum(album, cover);
         },
         onSuccess: (album) => {
-            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.ALBUM, album.id] })
             queryClient.setQueryData([TypeEntertainment.ALBUM, album.id], album);
+            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.ALBUM, album.id] })
         }
     })
 
