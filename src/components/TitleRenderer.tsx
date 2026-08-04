@@ -1,5 +1,5 @@
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum";
-import { SongTitle } from "@/songs/components/SongTitle";
+import { AlbumTitle } from "@/albums/components/AlbumTitle";
 import { MovieTitle } from "@/movies/components/MovieTitle";
 import { BookTitle } from "@/books/components/BookTitle";
 
@@ -9,8 +9,8 @@ export const TitleRenderer = () => {
     const { entertainmentSelected } = useEntertainmentParams();
 
     switch (entertainmentSelected) {
-        case TypeEntertainment.SONG:
-            return <SongTitle />;
+        case TypeEntertainment.ALBUM:
+            return <AlbumTitle />;
         case TypeEntertainment.MOVIE:
             return <MovieTitle />;
         case TypeEntertainment.BOOK:

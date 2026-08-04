@@ -1,5 +1,5 @@
 export enum TypeEntertainment {
     MOVIE = "movie",
-    SONG = "song",
+    ALBUM = "album",
     BOOK = "book"
 }
