@@ -1,21 +1,37 @@
-import { albumMock } from "@/mocks/album.mock";
-import { toAlbum } from "@/albums/mappers/album.mapper";
+import { entertainmentApi } from "@/api/entertainment.api";
+import { handleApiError } from "@/api/handle-api-error";
+import { toAlbum, toCreateFormData, toUpdateFormData } from "@/albums/mappers/album.mapper";
 import type { Album } from "@/albums/types/entities/album.entity";
+import type { AlbumResponse } from "@/albums/types/interfaces/album-response.interface";
+
+const ENDPOINT = '/albums';
 
 export const getAlbum = async (id: string): Promise<Album> => {
-    console.log(`Getting album with id ${id}...`);
+    try {
+        const { data } = await entertainmentApi.get<AlbumResponse>(`${ENDPOINT}/${id}`);
 
-    return toAlbum({ ...albumMock, id });
+        return toAlbum(data);
+    } catch (error) {
+        return handleApiError(error, `Could not load the album ${id}`);
+    }
 }
 
 export const createAlbum = async (album: Album, cover?: File): Promise<Album> => {
-    console.log('Creating album...', { album, cover });
+    try {
+        const { data } = await entertainmentApi.post<AlbumResponse>(ENDPOINT, toCreateFormData(album, cover));
 
-    return { ...album, id: albumMock.id };
+        return toAlbum(data);
+    } catch (error) {
+        return handleApiError(error, 'Could not create the album');
+    }
 }
 
 export const updateAlbum = async (id: string, album: Album, cover?: File): Promise<Album> => {
-    console.log(`Updating album with id ${id}...`, { album, cover });
+    try {
+        const { data } = await entertainmentApi.patch<AlbumResponse>(`${ENDPOINT}/${id}`, toUpdateFormData(album, cover));
 
-    return { ...album, id };
+        return toAlbum(data);
+    } catch (error) {
+        return handleApiError(error, `Could not update the album ${id}`);
+    }
 }

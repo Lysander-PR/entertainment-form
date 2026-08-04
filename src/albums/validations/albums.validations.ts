@@ -23,6 +23,7 @@ const validations: Partial<Record<AlbumField, Yup.AnySchema>> = {
         .optional(),
     songs: Yup.array()
         .min(1, "The album must have at least one song")
+        .required("The album must have at least one song")
 }
 
 export const schemaValidation: Yup.ObjectSchema<Yup.AnyObject> = Yup.object().shape(validations);
