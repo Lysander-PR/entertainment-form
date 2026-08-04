@@ -3,5 +3,6 @@ export enum TypeRenderer {
     INPUT_NUMBER = 'inputNumber',
     DATE_PICKER = 'datePicker',
     SELECT = 'select',
-    DRAGGER = 'dragger'
+    DRAGGER = 'dragger',
+    LIST = 'list'
 }
