@@ -22,14 +22,6 @@ labels: enhancement
 -
 -
 
-### New files / modules
-
-<!-- List the relevant new files and their responsibility. -->
-
-| File | Responsibility |
-| ---- | -------------- |
-|      |                |
-
 ## Form / validation impact
 
 <!-- Delete if not applicable. -->
