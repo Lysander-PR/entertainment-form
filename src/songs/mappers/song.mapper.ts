@@ -1,6 +1,6 @@
 import { cleanOptionalInputString } from "@/utils/cleanInputString";
 import type { Song } from "@/songs/entities/song.entity";
-import type { CreateSongPayload, SongPayload } from "@/songs/types/interfaces/song-payload.interface";
+import type { CreateSongPayload, SongPayload, SyncSongPayload } from "@/songs/types/interfaces/song-payload.interface";
 import type { SongResponse } from "@/songs/types/interfaces/song-response.interface";
 
 export const toSong = ({ id, title, composer, guestArtist, genre }: SongResponse): Song => ({
@@ -21,4 +21,9 @@ export const toSongPayload = ({ title, composer, guestArtist, genreId }: Song): 
 export const toCreateSongPayload = (song: Song, albumId: string): CreateSongPayload => ({
     ...toSongPayload(song),
     albumId
+});
+
+export const toSyncSongPayload = (song: Song): SyncSongPayload => ({
+    ...(song.id ? { id: song.id } : {}),
+    ...toSongPayload(song)
 });

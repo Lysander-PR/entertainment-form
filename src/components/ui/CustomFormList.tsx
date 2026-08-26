@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row, Space } from "antd"
+import { Button, Card, Col, Form, Input, Row, Space } from "antd"
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons"
 import type { FormListProps } from "antd/es/form"
 
@@ -40,6 +40,9 @@ export const CustomFormList = ({
                             />
                         }
                     >
+                        <Form.Item name={[rowName, 'id']} hidden>
+                            <Input type="hidden" />
+                        </Form.Item>
                         <Row gutter={16}>
                         {itemSchema.map((item) => (
                             <Col key={item.field} {...item.colProps}>

@@ -1,6 +1,8 @@
-import { toSong, toSongPayload } from "@/songs/mappers/song.mapper";
+import { toSong, toSongPayload, toSyncSongPayload } from "@/songs/mappers/song.mapper";
 import type { Album } from "@/albums/types/entities/album.entity";
 import type { AlbumResponse } from "@/albums/types/interfaces/album-response.interface";
+import type { Song } from "@/songs/entities/song.entity";
+import type { SongPayload, SyncSongPayload } from "@/songs/types/interfaces/song-payload.interface";
 
 export const toAlbum = ({
     id,
@@ -27,27 +29,28 @@ const appendAlbum = (formData: FormData, { album, artist, studio, releaseDate }:
     formData.append('releaseDate', releaseDate.toISOString());
 }
 
+const appendSongs = (formData: FormData, songs: (SongPayload | SyncSongPayload)[]): void => {
+    formData.append('songs', JSON.stringify(songs));
+}
+
 const appendCover = (formData: FormData, cover?: File): void => {
     if (cover) {
         formData.append('cover', cover);
     }
 }
 
-export const toCreateFormData = (album: Album, cover?: File): FormData => {
+const toFormData = (album: Album, toPayload: (song: Song) => SongPayload | SyncSongPayload, cover?: File): FormData => {
     const formData = new FormData();
 
     appendAlbum(formData, album);
-    formData.append('songs', JSON.stringify(album.songs.map(toSongPayload)));
+    appendSongs(formData, album.songs.map(toPayload));
     appendCover(formData, cover);
 
     return formData;
 }
 
-export const toUpdateFormData = (album: Album, cover?: File): FormData => {
-    const formData = new FormData();
+export const toCreateFormData = (album: Album, cover?: File): FormData =>
+    toFormData(album, toSongPayload, cover);
 
-    appendAlbum(formData, album);
-    appendCover(formData, cover);
-
-    return formData;
-}
+export const toUpdateFormData = (album: Album, cover?: File): FormData =>
+    toFormData(album, toSyncSongPayload, cover);

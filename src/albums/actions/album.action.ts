@@ -1,7 +1,6 @@
 import { entertainmentApi } from "@/api/entertainment.api";
 import { handleApiError } from "@/api/handle-api-error";
 import { toAlbum, toCreateFormData, toUpdateFormData } from "@/albums/mappers/album.mapper";
-import { syncAlbumSongs } from "@/songs/actions/song.action";
 import type { Album } from "@/albums/types/entities/album.entity";
 import type { AlbumResponse } from "@/albums/types/interfaces/album-response.interface";
 
@@ -29,11 +28,12 @@ export const createAlbum = async (album: Album, cover?: File): Promise<Album> =>
 
 export const updateAlbum = async (id: string, album: Album, cover?: File): Promise<Album> => {
     try {
-        const { songs: currentSongs } = await getAlbum(id);
-        await entertainmentApi.patch<AlbumResponse>(`${ENDPOINT}/${id}`, toUpdateFormData(album, cover));
-        await syncAlbumSongs(id, currentSongs, album.songs);
+        const { data } = await entertainmentApi.patch<AlbumResponse>(
+            `${ENDPOINT}/${id}/songs`,
+            toUpdateFormData(album, cover)
+        );
 
-        return await getAlbum(id);
+        return toAlbum(data);
     } catch (error) {
         return handleApiError(error, `Could not update the album ${id}`);
     }

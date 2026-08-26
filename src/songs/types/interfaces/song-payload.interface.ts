@@ -8,3 +8,7 @@ export interface SongPayload {
 export interface CreateSongPayload extends SongPayload {
     albumId: string;
 }
+
+export interface SyncSongPayload extends SongPayload {
+    id?: string;
+}
