@@ -1,19 +1,23 @@
 import { useEffect } from "react";
-import { clearAccessToken, getAccessToken } from "@/api/auth-token";
-import { refreshAccessToken } from "@/auth/actions/auth.action";
+import { getAccessToken } from "@/api/auth-token";
+import { endSession } from "@/auth/utils/login-redirect";
+import { refreshSession } from "@/auth/utils/refresh-session";
 
 export const useTokenRefresh = () => {
     useEffect(() => {
         if (!getAccessToken()) return;
 
-        const intervalId = setInterval(async () => {
+        const refresh = async () => {
             try {
-                await refreshAccessToken();
+                await refreshSession();
             } catch {
-                clearAccessToken();
                 clearInterval(intervalId);
+                endSession();
             }
-        }, 1000 * 50); // * 50 seconds
+        };
+
+        const intervalId = setInterval(refresh, 1000 * 50); // * 50 seconds
+        refresh();
 
         return () => clearInterval(intervalId);
     }, []);
