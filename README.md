@@ -66,6 +66,8 @@ https://entertainment-form.vercel.app
 
 ## 🏗 Project Structure
 ```
+├── api/ # Axios instance, token storage and API error handling
+├── auth/ # Session handoff, token refresh and route guard (no login screen here)
 ├── books/ # "books" domain: actions, hooks, schema, validations, types and specific components
 ├── components/ # Reusable UI components
 ├── constants/ # Shared constants and registries
@@ -78,6 +80,43 @@ https://entertainment-form.vercel.app
 └── main.tsx
 ```
 
+
+---
+
+## 🔐 Authentication
+
+This project has **no login screen**. Creating and editing entries requires a token that is
+issued by the companion login app (`entertainments-front`), which stores it in `localStorage`
+under the `token-entertainment` key.
+
+Since both apps run on different origins, `localStorage` is not shared. The session is handed
+off instead:
+
+1. The login app links to this one with the token in the URL fragment:
+   `<form-url>/?entertainment=movie&id=<uuid>#token=<jwt>`. The fragment is never sent to the
+   server, so the token stays out of access logs and of the `Referer` header.
+2. On boot, this app reads the fragment, stores the token and strips it from the URL.
+3. Without a token nothing is rendered: the user is sent to `VITE_LOGIN_URL` with a `?redirect=`
+   param, so the login app can hand the session back to the very page that was requested.
+4. Every outgoing request carries the stored token as an `Authorization: Bearer` header, added by
+   the request interceptor. Authorization itself is decided by the API, not here.
+5. The token is renewed on boot and every 50 seconds afterwards (`POST /auth/refresh`). On top of
+   that, any request rejected with a 401 triggers a refresh and is replayed once, so a submission
+   is never lost to an expired session.
+6. When a refresh fails the session is over: the token is dropped and the user goes back to the
+   login app.
+
+### Environment variables
+
+Copy `.env.template` into `.env` and fill it in:
+
+| Variable | Description |
+| --- | --- |
+| `VITE_API_URL` | Base URL of the API |
+| `VITE_LOGIN_URL` | Login page of the companion app, e.g. `http://localhost:5173/signature` |
+
+The dev server runs on a fixed port (`5174`, see `vite.config.ts`) so the login app can be
+configured to hand the session off to a stable address.
 
 ---
 

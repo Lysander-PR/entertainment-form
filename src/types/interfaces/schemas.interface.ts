@@ -1,6 +1,7 @@
 import type { ColProps, DatePickerProps, InputNumberProps, InputProps } from "antd";
 import type { TypeRenderer } from "@/types/enums/type-renderer.enum";
 import type { CustomDraggerProps } from "./custom-dragger.interface";
+import type { CustomListProps } from "./custom-list.interface";
 import type { CustomSelectProps } from "./custom-select.interface";
 
 export interface SchemaEntertainment<T> {
@@ -12,5 +13,6 @@ export interface SchemaEntertainment<T> {
     draggerProps?: CustomDraggerProps;
     inputProps?: InputProps;
     inputNumberProps?: InputNumberProps;
+    listProps?: CustomListProps;
     selectProps?: CustomSelectProps;
 }

@@ -1,29 +1,37 @@
-import { movieMock } from "@/mocks/movie.mock"
+import { entertainmentApi } from "@/api/entertainment.api";
+import { handleApiError } from "@/api/handle-api-error";
+import { toFormData, toMovie } from "@/movies/mappers/movie.mapper";
 import type { Movie } from "@/movies/entities/movie.entity";
 import type { MovieResponse } from "@/movies/types/interfaces/movie-response.interface";
 
-export const getMovie = async (id: string): Promise<Movie> => {
-    const response: MovieResponse = movieMock;
+const ENDPOINT = '/movies';
 
-    return {
-        id,
-        director: response.director,
-        protagonist: response.protagonist,
-        writer: response.writer,
-        studio: response.studio,
-        releaseDate: response.releaseDate ? new Date(response.releaseDate) : undefined,
-        soundtrack: response.soundtrack || '',
-        poster: response.poster || '',
-        title: response.title
+export const getMovie = async (id: string): Promise<Movie> => {
+    try {
+        const { data } = await entertainmentApi.get<MovieResponse>(`${ENDPOINT}/${id}`);
+
+        return toMovie(data);
+    } catch (error) {
+        return handleApiError(error, `Could not load the movie ${id}`);
     }
 }
 
-export const createMovie = async (movie: Movie): Promise<Movie> => {
-    console.log('Creating movie...', movie);
-    return movie;
+export const createMovie = async (movie: Movie, poster?: File): Promise<Movie> => {
+    try {
+        const { data } = await entertainmentApi.post<MovieResponse>(ENDPOINT, toFormData(movie, poster));
+
+        return toMovie(data);
+    } catch (error) {
+        return handleApiError(error, 'Could not create the movie');
+    }
 }
 
-export const updateMovie = async (id: string, movie: Movie): Promise<Movie> => {
-    console.log(`Updating movie with id ${id}...`, movie);
-    return movie;
+export const updateMovie = async (id: string, movie: Movie, poster?: File): Promise<Movie> => {
+    try {
+        const { data } = await entertainmentApi.patch<MovieResponse>(`${ENDPOINT}/${id}`, toFormData(movie, poster));
+
+        return toMovie(data);
+    } catch (error) {
+        return handleApiError(error, `Could not update the movie ${id}`);
+    }
 }

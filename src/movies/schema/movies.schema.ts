@@ -57,10 +57,9 @@ export const createSchema = (): MovieSchema[] => [
         type: TypeRenderer.DRAGGER,
         colProps: { span: 24 },
         draggerProps: {
-            title: 'Click or drag file to this area to upload',
-            description: 'Support for multiple upload. Strictly prohibit from uploading company data or other band files.',
-            multiple: true,
-            accept: 'image/png, image/jpeg, image/jpg',
+            title: 'Click or drag file to this area to upload a poster',
+            description: 'The poster will be used in the movie listing and details page (jpg, png, webp or gif)',
+            accept: 'image/png, image/jpeg, image/jpg, image/webp, image/gif',
         }
     },
 ];

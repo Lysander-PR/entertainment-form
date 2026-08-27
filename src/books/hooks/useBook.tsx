@@ -3,6 +3,11 @@ import { createBook, getBook, updateBook } from "@/books/actions/book.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { Book } from "@/books/types/entities/book.entity";
 
+interface SaveBookVariables {
+    book: Book;
+    cover?: File;
+}
+
 export const useBook = (id: string) => {
     const queryClient = useQueryClient();
 
@@ -14,16 +19,16 @@ export const useBook = (id: string) => {
     })
 
     const mutation = useMutation({
-        mutationFn: (book: Book) => {
+        mutationFn: ({ book, cover }: SaveBookVariables) => {
             if (id) {
-                return updateBook(id, book);
+                return updateBook(id, book, cover);
             }
 
-            return createBook(book);
+            return createBook(book, cover);
         },
         onSuccess: (book) => {
-            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.BOOK, id] })
-            queryClient.setQueryData([TypeEntertainment.BOOK, id], book);
+            queryClient.setQueryData([TypeEntertainment.BOOK, book.id], book);
+            queryClient.invalidateQueries({ queryKey: [TypeEntertainment.BOOK, book.id] })
         }
     })
 
