@@ -1,29 +1,25 @@
 import * as Yup from "yup";
+import { alphaWithSpacesRegex } from "@/constants/regular-expressions";
+import { cleanInputString, cleanOptionalInputString } from "@/utils/cleanInputString";
 import type { SongField } from "@/songs/types/song-field.type";
 
 const validations: Partial<Record<SongField, Yup.AnySchema>> = {
-    artist: Yup.string()
-        .required("Artist is required")
-        .matches(/^[a-zA-Z0-9\s]+$/, "Artist must contain only letters, numbers, and spaces")
-        .min(5, "Artist must have at least 5 characters"),
-    guestArtist: Yup.string()
-        .matches(/^[a-zA-Z0-9\s]+$/, "Guest Artist must contain only letters, numbers, and spaces")
-        .min(5, "Guest Artist must have at least 5 characters"),
-    album: Yup.string()
-        .required("Album is required")
-        .max(100, "Album must have max 100 characters"),
-    composer: Yup.string()
-        .required("Composer is required")
-        .matches(/^[a-zA-Z\s]+$/, "Composer must contain only letters and spaces")
-        .max(30, "Composer must have max 30 characters"),
-    studio: Yup.string()
-        .required("Studio is required"),
-    releaseDate: Yup.date(),
-    genre: Yup.string(),
     title: Yup.string()
+        .transform(cleanInputString)
         .required("Title is required")
-        .max(100, "Title must have max 100 characters"),
-    coverArt: Yup.mixed()
+        .max(50, "Title must have max 50 characters"),
+    composer: Yup.string()
+        .transform(cleanInputString)
+        .required("Composer is required")
+        .matches(alphaWithSpacesRegex, "Composer must contain only letters and spaces")
+        .max(30, "Composer must have max 30 characters"),
+    guestArtist: Yup.string()
+        .transform(cleanOptionalInputString)
+        .matches(alphaWithSpacesRegex, "Guest Artist must contain only letters and spaces")
+        .max(30, "Guest Artist must have max 30 characters")
+        .optional(),
+    genreId: Yup.string()
+        .required("Genre is required")
 }
 
 export const schemaValidation: Yup.ObjectSchema<Yup.AnyObject> = Yup.object().shape(validations);
