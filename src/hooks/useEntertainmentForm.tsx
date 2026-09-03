@@ -7,7 +7,10 @@ import dayjs from 'dayjs'
 import { schemaRegistry } from "@/constants/schema-registry"
 import { validationRegistry } from "@/constants/validation-registry"
 
+import { toUploadFileList } from '@/utils/toUploadFileList'
+
 import { TypeEntertainment } from '@/types/enums/type-entertainment.enum'
+import type { Cover } from '@/types/interfaces/cover.interface'
 import type { EntertainmentForm } from '@/types/interfaces/entertainment-form'
 import type { Album } from '@/albums/types/entities/album.entity'
 import type { Movie } from '@/movies/entities/movie.entity'
@@ -19,9 +22,14 @@ import { useMovie } from '@/movies/hooks/useMovie'
 import { useBook } from '@/books/hooks/useBook'
 import { useEntertainmentParams } from '@/hooks/useEntertainmentParams'
 
+interface CoverSelection {
+    recordKey: string;
+    files: UploadFile[];
+}
+
 export const useEntertainmentForm = () => {
     const { entertainmentSelected, id, isEditing, changeEntertainment } = useEntertainmentParams();
-    const [fileLists, setFileLists] = useState<UploadFile[]>([]);
+    const [coverSelection, setCoverSelection] = useState<CoverSelection | null>(null);
 
     const { data: musicGenres } = useGenres(entertainmentSelected === TypeEntertainment.ALBUM)
 
@@ -35,11 +43,22 @@ export const useEntertainmentForm = () => {
         [TypeEntertainment.BOOK]: queryBook
     };
 
+    const coverRegistry: Record<TypeEntertainment, Cover | undefined> = {
+        [TypeEntertainment.ALBUM]: queryAlbum.data?.cover,
+        [TypeEntertainment.MOVIE]: queryMovie.data?.poster,
+        [TypeEntertainment.BOOK]: queryBook.data?.coverImage
+    };
+
     const {
         data: record,
         isFetching: isLoadingRecord,
         error: recordError
     } = queryRegistry[entertainmentSelected];
+
+    const recordKey = `${entertainmentSelected}-${id}`;
+    const coverFileList = coverSelection?.recordKey === recordKey
+        ? coverSelection.files
+        : toUploadFileList(coverRegistry[entertainmentSelected]);
 
     const currentValidation = validationRegistry[entertainmentSelected];
     const currentSchema = schemaRegistry[entertainmentSelected]({
@@ -55,7 +74,7 @@ export const useEntertainmentForm = () => {
     }, [recordError, entertainmentSelected]);
 
     const saveAlbum = async (values: Album) => {
-        const cover = fileLists[0]?.originFileObj;
+        const cover = coverFileList[0]?.originFileObj;
 
         await mutationAlbum.mutateAsync({ album: values, cover }, {
             onSuccess: (data) => {
@@ -73,7 +92,7 @@ export const useEntertainmentForm = () => {
     }
 
     const saveMovie = async (values: Movie) => {
-        const poster = fileLists[0]?.originFileObj;
+        const poster = coverFileList[0]?.originFileObj;
 
         await mutationMovie.mutateAsync({ movie: values, poster }, {
             onSuccess: (data) => {
@@ -90,7 +109,7 @@ export const useEntertainmentForm = () => {
     }
 
     const saveBook = async (values: Book) => {
-        const cover = fileLists[0]?.originFileObj;
+        const cover = coverFileList[0]?.originFileObj;
 
         await mutationBook.mutateAsync({ book: values, cover }, {
             onSuccess: (data) => {
@@ -128,7 +147,7 @@ export const useEntertainmentForm = () => {
     }
 
     const handleDraggerChange = (info: UploadChangeParam<UploadFile<unknown>>) => {
-        setFileLists(info.fileList);
+        setCoverSelection({ recordKey, files: info.fileList });
     }
 
     const handleChangeEntity = (e: RadioChangeEvent) => {
@@ -140,6 +159,7 @@ export const useEntertainmentForm = () => {
         isEditing,
         initialValues: record,
         isLoadingRecord,
+        coverFileList,
         schema: currentSchema,
         validations: currentValidation,
         handleSubmit,

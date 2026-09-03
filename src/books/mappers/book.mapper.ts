@@ -1,3 +1,4 @@
+import { toCover } from "@/mappers/cover.mapper";
 import { cleanOptionalInputString } from "@/utils/cleanInputString";
 import type { Book } from "@/books/types/entities/book.entity";
 import type { BookResponse } from "@/books/types/interfaces/book-response.interface";
@@ -9,7 +10,7 @@ export const toBook = ({ id, author, coWriter, publisher, releaseDate, title, co
     publisher,
     releaseDate: new Date(releaseDate),
     title,
-    coverImage: cover?.file ?? ''
+    coverImage: toCover(cover)
 });
 
 export const toFormData = ({ author, coWriter, publisher, releaseDate, title }: Book, cover?: File): FormData => {

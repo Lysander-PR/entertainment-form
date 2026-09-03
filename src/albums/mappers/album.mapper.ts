@@ -1,3 +1,4 @@
+import { toCover } from "@/mappers/cover.mapper";
 import { toSong, toSongPayload, toSyncSongPayload } from "@/songs/mappers/song.mapper";
 import type { Album } from "@/albums/types/entities/album.entity";
 import type { AlbumResponse } from "@/albums/types/interfaces/album-response.interface";
@@ -18,7 +19,7 @@ export const toAlbum = ({
     artist,
     studio,
     releaseDate: new Date(releaseDate),
-    cover: cover?.file ?? '',
+    cover: toCover(cover),
     songs: songs?.map(toSong) ?? []
 });
 

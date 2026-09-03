@@ -1,3 +1,4 @@
+import { toCover } from "@/mappers/cover.mapper";
 import { cleanOptionalInputString } from "@/utils/cleanInputString";
 import type { Movie } from "@/movies/entities/movie.entity";
 import type { MovieResponse } from "@/movies/types/interfaces/movie-response.interface";
@@ -21,7 +22,7 @@ export const toMovie = ({
     releaseDate: new Date(releaseDate),
     soundtrack: soundtrack ?? '',
     title,
-    poster: poster?.file ?? ''
+    poster: toCover(poster)
 });
 
 export const toFormData = ({
