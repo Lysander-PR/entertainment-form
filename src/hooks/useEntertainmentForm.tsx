@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { schemaRegistry } from "@/constants/schema-registry"
 import { validationRegistry } from "@/constants/validation-registry"
 
+import { toCoverPayload } from '@/utils/toCoverPayload'
 import { toUploadFileList } from '@/utils/toUploadFileList'
 
 import { TypeEntertainment } from '@/types/enums/type-entertainment.enum'
@@ -55,10 +56,12 @@ export const useEntertainmentForm = () => {
         error: recordError
     } = queryRegistry[entertainmentSelected];
 
+    const currentCover = coverRegistry[entertainmentSelected];
     const recordKey = `${entertainmentSelected}-${id}`;
     const coverFileList = coverSelection?.recordKey === recordKey
         ? coverSelection.files
-        : toUploadFileList(coverRegistry[entertainmentSelected]);
+        : toUploadFileList(currentCover);
+    const coverPayload = toCoverPayload(coverFileList, currentCover);
 
     const currentValidation = validationRegistry[entertainmentSelected];
     const currentSchema = schemaRegistry[entertainmentSelected]({
@@ -74,9 +77,7 @@ export const useEntertainmentForm = () => {
     }, [recordError, entertainmentSelected]);
 
     const saveAlbum = async (values: Album) => {
-        const cover = coverFileList[0]?.originFileObj;
-
-        await mutationAlbum.mutateAsync({ album: values, cover }, {
+        await mutationAlbum.mutateAsync({ album: values, cover: coverPayload }, {
             onSuccess: (data) => {
                 message.success(`Album ${data.album} saved successfully!`);
             },
@@ -92,9 +93,7 @@ export const useEntertainmentForm = () => {
     }
 
     const saveMovie = async (values: Movie) => {
-        const poster = coverFileList[0]?.originFileObj;
-
-        await mutationMovie.mutateAsync({ movie: values, poster }, {
+        await mutationMovie.mutateAsync({ movie: values, poster: coverPayload }, {
             onSuccess: (data) => {
                 message.success(`Movie ${data.title} saved successfully!`);
             },
@@ -109,9 +108,7 @@ export const useEntertainmentForm = () => {
     }
 
     const saveBook = async (values: Book) => {
-        const cover = coverFileList[0]?.originFileObj;
-
-        await mutationBook.mutateAsync({ book: values, cover }, {
+        await mutationBook.mutateAsync({ book: values, cover: coverPayload }, {
             onSuccess: (data) => {
                 message.success(`Book ${data.title} saved successfully!`);
             },

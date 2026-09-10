@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createMovie, getMovie, updateMovie } from "@/movies/actions/movie.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface"
 import type { Movie } from "@/movies/entities/movie.entity"
 
 interface SaveMovieVariables {
     movie: Movie;
-    poster?: File;
+    poster?: CoverPayload;
 }
 
 export const useMovie = (id: string) => {

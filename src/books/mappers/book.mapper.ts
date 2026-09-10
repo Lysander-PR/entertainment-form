@@ -1,7 +1,8 @@
-import { toCover } from "@/mappers/cover.mapper";
+import { appendCover, toCover } from "@/mappers/cover.mapper";
 import { cleanOptionalInputString } from "@/utils/cleanInputString";
 import type { Book } from "@/books/types/entities/book.entity";
 import type { BookResponse } from "@/books/types/interfaces/book-response.interface";
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface";
 
 export const toBook = ({ id, author, coWriter, publisher, releaseDate, title, cover }: BookResponse): Book => ({
     id,
@@ -13,7 +14,10 @@ export const toBook = ({ id, author, coWriter, publisher, releaseDate, title, co
     coverImage: toCover(cover)
 });
 
-export const toFormData = ({ author, coWriter, publisher, releaseDate, title }: Book, cover?: File): FormData => {
+export const toFormData = (
+    { author, coWriter, publisher, releaseDate, title }: Book,
+    cover?: CoverPayload
+): FormData => {
     const formData = new FormData();
     const coWriterCleaned = cleanOptionalInputString(coWriter);
 
@@ -26,9 +30,7 @@ export const toFormData = ({ author, coWriter, publisher, releaseDate, title }: 
         formData.append('coWriter', coWriterCleaned);
     }
 
-    if (cover) {
-        formData.append('cover', cover);
-    }
+    appendCover(formData, cover);
 
     return formData;
 }
