@@ -61,7 +61,7 @@ export const useEntertainmentForm = () => {
     const coverFileList = coverSelection?.recordKey === recordKey
         ? coverSelection.files
         : toUploadFileList(currentCover);
-    const coverPayload = toCoverPayload(coverFileList, currentCover);
+    const coverPayload = toCoverPayload(coverFileList);
 
     const currentValidation = validationRegistry[entertainmentSelected];
     const currentSchema = schemaRegistry[entertainmentSelected]({
@@ -122,6 +122,19 @@ export const useEntertainmentForm = () => {
         })
     }
 
+    const markCoverAsSent = () => {
+        setCoverSelection(selection => {
+            if (selection?.recordKey !== recordKey) {
+                return selection;
+            }
+
+            return {
+                recordKey,
+                files: selection.files.map(file => ({ ...file, originFileObj: undefined }))
+            };
+        });
+    }
+
     const handleSubmit = async (values: EntertainmentForm): Promise<void> => {
         const releaseDate = values.releaseDate ? dayjs(values.releaseDate).toDate() : new Date();
 
@@ -141,6 +154,8 @@ export const useEntertainmentForm = () => {
             default:
                 break;
         }
+
+        markCoverAsSent();
     }
 
     const handleDraggerChange = (info: UploadChangeParam<UploadFile<unknown>>) => {

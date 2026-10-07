@@ -21,8 +21,4 @@ export const appendCover = (formData: FormData, cover?: CoverPayload): void => {
     }
 
     formData.append('cover', cover.file);
-
-    if (cover.id) {
-        formData.append('coverId', cover.id);
-    }
 }
