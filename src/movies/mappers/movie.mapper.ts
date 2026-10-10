@@ -1,4 +1,6 @@
+import { appendCover, toCover } from "@/mappers/cover.mapper";
 import { cleanOptionalInputString } from "@/utils/cleanInputString";
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface";
 import type { Movie } from "@/movies/entities/movie.entity";
 import type { MovieResponse } from "@/movies/types/interfaces/movie-response.interface";
 
@@ -21,7 +23,7 @@ export const toMovie = ({
     releaseDate: new Date(releaseDate),
     soundtrack: soundtrack ?? '',
     title,
-    poster: poster?.file ?? ''
+    poster: toCover(poster)
 });
 
 export const toFormData = ({
@@ -32,7 +34,7 @@ export const toFormData = ({
     releaseDate,
     soundtrack,
     title
-}: Movie, poster?: File): FormData => {
+}: Movie, poster?: CoverPayload): FormData => {
     const formData = new FormData();
     const soundtrackCleaned = cleanOptionalInputString(soundtrack);
 
@@ -47,9 +49,7 @@ export const toFormData = ({
         formData.append('soundtrack', soundtrackCleaned);
     }
 
-    if (poster) {
-        formData.append('cover', poster);
-    }
+    appendCover(formData, poster);
 
     return formData;
 }

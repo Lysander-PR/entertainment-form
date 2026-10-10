@@ -3,6 +3,7 @@ import { handleApiError } from "@/api/handle-api-error";
 import { toAlbum, toCreateFormData, toUpdateFormData } from "@/albums/mappers/album.mapper";
 import type { Album } from "@/albums/types/entities/album.entity";
 import type { AlbumResponse } from "@/albums/types/interfaces/album-response.interface";
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface";
 
 const ENDPOINT = '/albums';
 
@@ -16,7 +17,7 @@ export const getAlbum = async (id: string): Promise<Album> => {
     }
 }
 
-export const createAlbum = async (album: Album, cover?: File): Promise<Album> => {
+export const createAlbum = async (album: Album, cover?: CoverPayload): Promise<Album> => {
     try {
         const { data } = await entertainmentApi.post<AlbumResponse>(ENDPOINT, toCreateFormData(album, cover));
 
@@ -26,7 +27,7 @@ export const createAlbum = async (album: Album, cover?: File): Promise<Album> =>
     }
 }
 
-export const updateAlbum = async (id: string, album: Album, cover?: File): Promise<Album> => {
+export const updateAlbum = async (id: string, album: Album, cover?: CoverPayload): Promise<Album> => {
     try {
         const { data } = await entertainmentApi.patch<AlbumResponse>(
             `${ENDPOINT}/${id}/songs`,

@@ -3,6 +3,7 @@ import { handleApiError } from "@/api/handle-api-error";
 import { toBook, toFormData } from "@/books/mappers/book.mapper";
 import type { Book } from "@/books/types/entities/book.entity";
 import type { BookResponse } from "@/books/types/interfaces/book-response.interface";
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface";
 
 const ENDPOINT = '/books';
 
@@ -16,7 +17,7 @@ export const getBook = async (id: string): Promise<Book> => {
     }
 }
 
-export const createBook = async (book: Book, cover?: File): Promise<Book> => {
+export const createBook = async (book: Book, cover?: CoverPayload): Promise<Book> => {
     try {
         const { data } = await entertainmentApi.post<BookResponse>(ENDPOINT, toFormData(book, cover));
 
@@ -26,7 +27,7 @@ export const createBook = async (book: Book, cover?: File): Promise<Book> => {
     }
 }
 
-export const updateBook = async (id: string, book: Book, cover?: File): Promise<Book> => {
+export const updateBook = async (id: string, book: Book, cover?: CoverPayload): Promise<Book> => {
     try {
         const { data } = await entertainmentApi.patch<BookResponse>(`${ENDPOINT}/${id}`, toFormData(book, cover));
 

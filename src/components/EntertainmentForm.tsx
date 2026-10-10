@@ -15,6 +15,7 @@ export const EntertainmentForm = () => {
     isEditing,
     initialValues,
     isLoadingRecord,
+    coverFileList,
     schema,
     validations,
     handleSubmit,
@@ -61,6 +62,7 @@ export const EntertainmentForm = () => {
             key={item.field}
             item={item}
             validations={validations}
+            coverFileList={coverFileList}
             onDraggerChange={handleDraggerChange}
           />
         ))}

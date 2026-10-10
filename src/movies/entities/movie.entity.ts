@@ -1,3 +1,5 @@
+import type { Cover } from "@/types/interfaces/cover.interface";
+
 export interface Movie {
     id: string;
     director: string;
@@ -6,6 +8,6 @@ export interface Movie {
     studio: string;
     releaseDate: Date;
     soundtrack: string;
-    poster: string;
+    poster?: Cover;
     title: string;
 }
