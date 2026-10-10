@@ -1,4 +1,5 @@
 import type { Song } from "@/songs/entities/song.entity";
+import type { Cover } from "@/types/interfaces/cover.interface";
 
 export interface Album {
     id: string;
@@ -6,6 +7,6 @@ export interface Album {
     artist: string;
     studio: string;
     releaseDate: Date;
-    cover: string;
+    cover?: Cover;
     songs: Song[];
 }

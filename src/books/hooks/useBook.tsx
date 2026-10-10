@@ -2,10 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createBook, getBook, updateBook } from "@/books/actions/book.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { Book } from "@/books/types/entities/book.entity";
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface";
 
 interface SaveBookVariables {
     book: Book;
-    cover?: File;
+    cover?: CoverPayload;
 }
 
 export const useBook = (id: string) => {

@@ -1,3 +1,5 @@
+import type { Cover } from "@/types/interfaces/cover.interface";
+
 export interface Book {
     id: string;
     author: string;
@@ -5,5 +7,5 @@ export interface Book {
     publisher: string;
     releaseDate: Date;
     title: string;
-    coverImage: string;
+    coverImage?: Cover;
 }

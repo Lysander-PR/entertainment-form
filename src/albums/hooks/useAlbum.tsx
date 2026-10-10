@@ -2,10 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createAlbum, getAlbum, updateAlbum } from "@/albums/actions/album.action"
 import { TypeEntertainment } from "@/types/enums/type-entertainment.enum"
 import type { Album } from "@/albums/types/entities/album.entity";
+import type { CoverPayload } from "@/types/interfaces/cover-payload.interface";
 
 interface SaveAlbumVariables {
     album: Album;
-    cover?: File;
+    cover?: CoverPayload;
 }
 
 export const useAlbum = (id: string) => {
